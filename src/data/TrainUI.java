@@ -1,6 +1,8 @@
 package data;
 
 import java.awt.Color;
+import java.awt.TextArea;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,18 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import design.LiquidCargowagon;
-import design.Locomotive;
-import design.Passengerswagon;
-import design.SolidCargowagon;
-import design.Train;
-import design.Wagon;
+public class TrainUI{
+TrainController tc=new TrainController();
 
-public class TrainUI
-{
     private void displayGUI()
     {
-    	TrainController tc=new TrainController();
         JFrame frame = new JFrame("RichRail");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,93 +32,101 @@ public class TrainUI
         label.setSize(300, 30);
         label.setLocation(5, 5);
         
-        JComboBox<Integer> jComboBox1 = new JComboBox<Integer>();
-        for (Train t:tc.getTrains()){
-        jComboBox1.addItem(t.getTrainid());
-        }
+        JLabel label2 = new JLabel(
+                "Command:", JLabel.LEFT);
+            label2.setSize(100, 20);
+            label2.setLocation(5, 910);
         
-        jComboBox1.addActionListener (new ActionListener () {
-        	@Override
-            public void actionPerformed(ActionEvent e) {
-            	Integer selected=(Integer)jComboBox1.getSelectedItem();
-            	Train train=tc.getTrainbyID(selected);
-            	for (Wagon w:train.getWagonlist()){
-        			if (w.getClass()==Passengerswagon.class){
-        				System.out.println("Passengerswagon");
-        				Passengerswagon p1=(Passengerswagon)w;
-        				System.out.println("Total seats: "+p1.getSeats());
-        			}
-        			if (w.getClass()==LiquidCargowagon.class){
-        				System.out.println("LiquidCargowagon");
-        				LiquidCargowagon p1=(LiquidCargowagon)w;
-        				System.out.println("Content in liters: "+p1.getContentliters());
-        			}
-        			if (w.getClass()==SolidCargowagon.class){
-        				System.out.println("SolidCargowagon");
-        				SolidCargowagon p1=(SolidCargowagon)w;
-        				System.out.println("Content in cubic meters: "+p1.getContentcubic());
-        			}
-        			if (w.getClass()==Locomotive.class){
-        				System.out.println("Locomotive");
-        				Locomotive p1=(Locomotive)w;
-        				System.out.println("Seat: "+p1.getSeats());
-        			}
-        		}
-        				
-        	
-            }
-        });
+        TextArea textarea = new TextArea();
+        textarea.setSize(1000, 400);
+        textarea.setLocation(1, 500);
+        textarea.setEditable(false);
         
+        TextArea textarea2 = new TextArea();
+        textarea2.setSize(1199, 400);
+        textarea2.setLocation(1, 50);
+        textarea2.setEditable(false);
+        
+        TextField textfield = new TextField();
+        textfield.setSize(375, 20);
+        textfield.setLocation(105, 910);
 
-        jComboBox1.setSize(50, 25);
-        jComboBox1.setLocation(200, 200);
-
-        JButton button = new JButton("USELESS");
+        JButton button = new JButton("EXECUTE");
         button.setSize(100, 30);
-        button.setLocation(95, 45);
+        button.setLocation(500, 910);
         
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Train t1=tc.getTrains().get(0);
-        		for (Wagon w:t1.getWagonlist()){
-        			if (w.getClass()==Passengerswagon.class){
-        				System.out.println("Passengerswagon");
-        				Passengerswagon p1=(Passengerswagon)w;
-        				System.out.println("Total seats: "+p1.getSeats());
-        			}
-        			if (w.getClass()==LiquidCargowagon.class){
-        				System.out.println("LiquidCargowagon");
-        				LiquidCargowagon p1=(LiquidCargowagon)w;
-        				System.out.println("Content in liters: "+p1.getContentliters());
-        			}
-        			if (w.getClass()==SolidCargowagon.class){
-        				System.out.println("SolidCargowagon");
-        				SolidCargowagon p1=(SolidCargowagon)w;
-        				System.out.println("Content in cubic meters: "+p1.getContentcubic());
-        			}
-        			if (w.getClass()==Locomotive.class){
-        				System.out.println("Locomotive");
-        				Locomotive p1=(Locomotive)w;
-        				System.out.println("Seat: "+p1.getSeats());
-        			}
-        		}
-        				
-        	
+            	String command=textfield.getText();
+            	textarea.append(command+"\n");
+            	if (command.toLowerCase().contains("new")){
+            		if (command.toLowerCase().contains("train") && idcontrol(command)==true){
+            			String execution = command.replace("new train ","");
+            			createTrain(execution);
+            			textarea2.append("train "+execution+" created.");
+            			createLocomotive(execution);
+            		}
+            		if (command.toLowerCase().contains("wagon") && idcontrol(command)==true){
+            			System.out.println("NEGER");
+            			if (command.toLowerCase().contains("numseats")){
+            				String numseats=command.substring(23,command.length());
+            				System.out.println(numseats);
+            		}
+            	}
+            }
             }
         });
+        
 
         contentPane.add(label);
+        contentPane.add(label2);
         contentPane.add(button);
-        contentPane.add(jComboBox1);
+        contentPane.add(textarea);
+        contentPane.add(textarea2);
+        contentPane.add(textfield);
 
         frame.setContentPane(contentPane);
-        frame.setSize(1000, 800);
+        frame.setSize(1200, 1000);
         frame.setLocationByPlatform(true);
         frame.setVisible(true);
     }
+    protected boolean idcontrol(String command){
+    	String id = command.replace("new train ","");
+    	id = id.replace("new wagon ","");
+    	boolean result=false;
+    	if (Character.isLetter(id.charAt(0))&& Character.isLetter(id.charAt(1)) && Character.isDigit(id.charAt(2))){
+    		result=true;
+    	}
+    	return result;
+    }
+    
+    protected void createTrain(String id) {
+    	tc.createTrain(id);
+		
+	}
+    protected void createLocomotive(String id) {
+    	tc.createWagon(id,1, "Locomotive");
+		
+	}
+    protected void createPassengerWagon(String id,int numseats) {
+    	tc.createWagon(id,numseats, "Passenger");
+		
+	}
+    protected void createPassengerWagon(String id) {
+    	tc.createWagon(id,20, "Passenger");
+		
+	}
+    protected void createSolidCargoWagon(String id,int content) {
+    	tc.createWagon(id,content, "SolidCargo");
+		
+	}
+    protected void createLiquidCargoWagon(String id,int content) {
+    	tc.createWagon(id,content, "LiquidCargo");
+		
+	}
 
-    public static void main(String... args)
+	public static void main(String... args)
     {
         SwingUtilities.invokeLater(new Runnable()
         {

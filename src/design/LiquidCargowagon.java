@@ -4,7 +4,7 @@ public class LiquidCargowagon extends Wagon{
 	private double contentliters;
 
 	public LiquidCargowagon(int wagonid, double length, double content) {
-		super(wagonid, length);
+		super(wagonid);
 		contentliters=content;
 	}
 

@@ -4,7 +4,7 @@ public class Locomotive extends Wagon{
 	private int seats;
 
 	public Locomotive(int wagonid, double length, int seats) {
-		super(wagonid, length);
+		super(wagonid);
 		this.seats=seats;
 	}
 

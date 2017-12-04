@@ -4,7 +4,7 @@ public class SolidCargowagon extends Wagon{
 	private double contentcubic;
 
 	public SolidCargowagon(int wagonid, double length, double content) {
-		super(wagonid, length);
+		super(wagonid);
 		contentcubic=content;
 	}
 

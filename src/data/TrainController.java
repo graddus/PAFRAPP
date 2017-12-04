@@ -15,8 +15,8 @@ public class TrainController {
 			return dao.getTrainbyID(id);
 		}
 
-	public void createTrain(Train train) {
-		dao.createTrain(train);
+	public void createTrain(String id) {
+		dao.createTrain(id);
 	}
 
 	public ArrayList<Wagon> getWagons(Train train) {
@@ -27,8 +27,8 @@ public class TrainController {
 		dao.deleteTrain(train);
 	}
 
-	public void createWagon(Wagon wagon, Train train) {
-			dao.createWagon(wagon, train);
+	public void createWagon(String id, int value, String wagontype) {
+			dao.createWagon(id, value, wagontype);
 	}
 
 }

@@ -98,7 +98,7 @@ public class TrainDAO extends BaseDAO {
 	 				}
 	 				return trainlist.get(0);
 	}
-	public void createTrain(Train train){
+	public void createTrain(String id){
 		try{			
 			Connection conn=super.getConnection();
 						System.out.println("Connection made");
@@ -107,7 +107,7 @@ public class TrainDAO extends BaseDAO {
 						Statement stmt = conn.createStatement();
 						
 						// Een tweede statement maken dat een resultaat oplevert
-		 				String queryText = "INSERT INTO Train values("+train.getTrainid()+", 0)";
+		 				String queryText = "INSERT INTO Trains values('"+id+"', 0)";
 		 				
 		 				// Een tweede statement uitvoeren
 		 				stmt.executeQuery(queryText);
@@ -207,53 +207,27 @@ public class TrainDAO extends BaseDAO {
 		 					e.printStackTrace();
 		 				}
 		}
-public void createWagon(Wagon wagon, Train train){
+public void createWagon(String id, int value, String wagontype){
 	try{			
 		Connection conn=super.getConnection();
-		Passengerswagon pw;
-			SolidCargowagon scw;
-			LiquidCargowagon lcw;
-			Locomotive loco;
-		String wagontype="";
-		if (wagon.getClass()==Passengerswagon.class){
-			wagontype="Passenger";
-		}
-		if (wagon.getClass()==LiquidCargowagon.class){
-			wagontype="LiquidCargo";
-		}
-		if (wagon.getClass()==SolidCargowagon.class){
-			wagontype="SolidCargo";
-		}
-		if (wagon.getClass()==Locomotive.class){
-			wagontype="Locomotive";
-		}
 		
 					System.out.println("Connection made");
 				
 					// Een eerste SQL statement maken
 					Statement stmt = conn.createStatement();
 					String queryText="";
-					String queryText2="";
 					// Een tweede statement maken dat een resultaat oplevert
 	 				if (wagontype.equals("Passenger")){
-	 					pw=(Passengerswagon)wagon;
-	 					queryText2="UPDATE Trains set totalseats=totalseats+"+pw.getSeats()+" where id="+train.getTrainid();
-	 					stmt.executeQuery(queryText2);
-	 					queryText="INSERT INTO WAGONS(id,length,wagontype,seats, train_id) VALUES("+pw.getWagonid()+","+pw.getLength()+",'Passenger',"+pw.getSeats()+")";
+	 					queryText="INSERT INTO WAGONS(id,wagontype,seats) VALUES('"+id+"','Passenger',"+value+")";
 	 				}
 	 				if (wagontype.equals("LiquidCargo")){
-	 					lcw=(LiquidCargowagon)wagon;
-	 					queryText="INSERT INTO WAGONS(id,length,wagontype,contentliters, train_id) VALUES("+lcw.getWagonid()+","+lcw.getLength()+",'LiquidCargo',"+lcw.getContentliters()+")";
+	 					queryText="INSERT INTO WAGONS(id,wagontype,contentliters) VALUES('"+id+",'LiquidCargo',"+value+")";
 	 				}
 	 				if (wagontype.equals("SolidCargo")){
-	 					scw=(SolidCargowagon)wagon;
-	 					queryText="INSERT INTO WAGONS(id,length,wagontype,contentcubic, train_id) VALUES("+scw.getWagonid()+","+scw.getLength()+",'SolidCargo',"+scw.getContentcubic()+")";
+	 					queryText="INSERT INTO WAGONS(id,wagontype,contentcubic) VALUES('"+id+"','SolidCargo',"+value+")";
 	 				}
 	 				if (wagontype.equals("Locomotive")){
-	 					loco=(Locomotive)wagon;
-	 					queryText2="UPDATE Trains set totalseats=totalseats+"+loco.getSeats()+" where id="+train.getTrainid();
-	 					stmt.executeQuery(queryText2);
-	 					queryText="INSERT INTO WAGONS(id,length,wagontype,seats, train_id) VALUES("+loco.getWagonid()+","+loco.getLength()+",'Locomotive',1"+train.getTrainid()+")";
+	 					queryText="INSERT INTO WAGONS(id,wagontype,seats) VALUES('"+id+"','Locomotive',"+value+")";
 	 				}
 	 				// Een tweede statement uitvoeren
 	 				stmt.executeQuery(queryText);
