@@ -1,16 +1,16 @@
 package design;
 
 public abstract class Wagon {
-int wagonid;
+String wagonid;
 
 
-public Wagon(int wagonid) {
+public Wagon(String wagonid) {
 	this.wagonid = wagonid;
 }
-public int getWagonid() {
+public String getWagonid() {
 	return wagonid;
 }
-public void setWagonid(int wagonid) {
+public void setWagonid(String wagonid) {
 	this.wagonid = wagonid;
 }
 

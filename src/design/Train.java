@@ -3,15 +3,15 @@ package design;
 import java.util.ArrayList;
 
 public class Train {
-	private int trainid;
+	private String trainid;
 	private int totalseats;
 	private ArrayList<Wagon> wagonlist=new ArrayList<Wagon>();
 	
 	
-	public Train(int trainid) {
+	public Train(String trainid) {
 		this.trainid = trainid;
 	}
-	public int getTrainid() {
+	public String getTrainid() {
 		return trainid;
 	}
 	public int getTotalseats() {

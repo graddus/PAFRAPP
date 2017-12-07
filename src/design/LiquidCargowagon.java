@@ -3,7 +3,7 @@ package design;
 public class LiquidCargowagon extends Wagon{
 	private double contentliters;
 
-	public LiquidCargowagon(int wagonid, double length, double content) {
+	public LiquidCargowagon(String wagonid, double content) {
 		super(wagonid);
 		contentliters=content;
 	}

@@ -3,7 +3,7 @@ package design;
 public class SolidCargowagon extends Wagon{
 	private double contentcubic;
 
-	public SolidCargowagon(int wagonid, double length, double content) {
+	public SolidCargowagon(String wagonid, double content) {
 		super(wagonid);
 		contentcubic=content;
 	}

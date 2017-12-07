@@ -25,7 +25,6 @@ public class TrainDAO extends BaseDAO {
 			// Leg de connectie met de database
 		try{			
 		Connection conn=super.getConnection();
-					System.out.println("Connection made");
 				
 					// Een eerste SQL statement maken
 					Statement stmt = conn.createStatement();
@@ -36,13 +35,13 @@ public class TrainDAO extends BaseDAO {
 	 				// Een tweede statement uitvoeren
 	 				ResultSet rs = stmt.executeQuery(queryText);
 	 				
-	 				int code;
+	 				String code;
 	 				int totalseats;
 	 				Train train;
 	 				
 	 				while (rs.next()) {
 	 					
-	 					code = rs.getInt("ID");	
+	 					code = rs.getString("ID");	
 	 					totalseats = rs.getInt("totalseats");
 	 					train=new Train(code);
 	 					train.setTotalseats(totalseats);
@@ -59,29 +58,28 @@ public class TrainDAO extends BaseDAO {
 	 				}
 	 				return trainlist;
 	}
-	public Train getTrainbyID(int id){
+	public Train getTrain(String id){
 		trainlist = new ArrayList<Train>();
 			// Leg de connectie met de database
 		try{			
 		Connection conn=super.getConnection();
-					System.out.println("Connection made");
 				
 					// Een eerste SQL statement maken
 					Statement stmt = conn.createStatement();
 					
 					// Een tweede statement maken dat een resultaat oplevert
-	 				String queryText = "SELECT * FROM Trains where ID="+id;
+	 				String queryText = "SELECT * FROM Trains where ID='"+id+"'";
 	 				
 	 				// Een tweede statement uitvoeren
 	 				ResultSet rs = stmt.executeQuery(queryText);
 	 				
-	 				int code;
+	 				String code;
 	 				int totalseats;
 	 				Train train2;
 	 				
 	 				while (rs.next()) {
 	 					
-	 					code = rs.getInt("ID");	
+	 					code = rs.getString("ID");	
 	 					totalseats = rs.getInt("totalseats");
 	 					train2=new Train(code);
 	 					train2.setTotalseats(totalseats);
@@ -93,24 +91,30 @@ public class TrainDAO extends BaseDAO {
 	 				stmt.close();
 	 				conn.close();
 		}
-	 				catch (SQLException e){
-	 					e.printStackTrace();
+	 				catch (Exception e){
+	 					return null;
 	 				}
-	 				return trainlist.get(0);
+	 				if (trainlist.isEmpty()==true){
+	 					return null;
+	 				}
+	 				else{
+	 					return trainlist.get(0);
+	 				}
 	}
 	public void createTrain(String id){
 		try{			
 			Connection conn=super.getConnection();
-						System.out.println("Connection made");
 					
 						// Een eerste SQL statement maken
 						Statement stmt = conn.createStatement();
 						
 						// Een tweede statement maken dat een resultaat oplevert
-		 				String queryText = "INSERT INTO Trains values('"+id+"', 0)";
+		 				String queryText = "INSERT INTO Trains values('"+id+"', 1)";
+		 				String queryText2 = "INSERT INTO Wagons values('"+id+"', 'Locomotive', 1, NULL, NULL, '"+id+"')";
 		 				
 		 				// Een tweede statement uitvoeren
 		 				stmt.executeQuery(queryText);
+		 				stmt.executeQuery(queryText2);
 		 				
 		 				// De resultset, het statement en de verbinding sluiten
 		 				conn.commit();
@@ -126,20 +130,18 @@ public class TrainDAO extends BaseDAO {
 		// Leg de connectie met de database
 	try{			
 	Connection conn=super.getConnection();
-				System.out.println("Connection made");
 			
 				// Een eerste SQL statement maken
 				Statement stmt = conn.createStatement();
 				
 				// Een tweede statement maken dat een resultaat oplevert
- 				String queryText = "SELECT * FROM Wagons WHERE train_ID="+train.getTrainid();
+ 				String queryText = "SELECT * FROM Wagons WHERE train_ID='"+train.getTrainid()+"'";
  				
  				// Een tweede statement uitvoeren
  				ResultSet rs = stmt.executeQuery(queryText);
  				
- 				int code;
+ 				String code;
  				int seats;
- 				int length;
  				double contentcubic;
  				double contentliters;
  				String wagontype;
@@ -150,25 +152,24 @@ public class TrainDAO extends BaseDAO {
  				
  				while (rs.next()) {
  					wagontype=rs.getString("wagontype");
- 					code=rs.getInt("id");
- 					length=rs.getInt("length");
+ 					code=rs.getString("id");
  					if (wagontype.equals("Passenger")){
  						seats=rs.getInt("seats");
- 						pw=new Passengerswagon(code, length, seats);
+ 						pw=new Passengerswagon(code, seats);
  						wagonlist.add(pw);
  					}
  					if (wagontype.equals("Locomotive")){
- 						loco=new Locomotive(code, length, 1);
+ 						loco=new Locomotive(code, 1);
  						wagonlist.add(loco);
  					}
  					if (wagontype.equals("SolidCargo")){
  						contentcubic=rs.getDouble("ContentCubic");
- 						scw=new SolidCargowagon(code, length, contentcubic);
+ 						scw=new SolidCargowagon(code, contentcubic);
  						wagonlist.add(scw);
  					}
  					if (wagontype.equals("LiquidCargo")){
  						contentliters=rs.getDouble("ContentLiters");
- 						lcw=new LiquidCargowagon(code, length, contentliters);
+ 						lcw=new LiquidCargowagon(code, contentliters);
  						wagonlist.add(lcw);
  					}
  				}
@@ -182,22 +183,84 @@ public class TrainDAO extends BaseDAO {
  				}
  				return wagonlist;
 }
+	public Wagon getWagon(String id){
+		wagonlist = new ArrayList<Wagon>();
+		// Leg de connectie met de database
+	try{			
+	Connection conn=super.getConnection();
+			
+				// Een eerste SQL statement maken
+				Statement stmt = conn.createStatement();
+				
+				// Een tweede statement maken dat een resultaat oplevert
+ 				String queryText = "SELECT * FROM Wagons WHERE id='"+id+"'";
+ 				
+ 				// Een tweede statement uitvoeren
+ 				ResultSet rs = stmt.executeQuery(queryText);
+ 				
+ 				String code;
+ 				int seats;
+ 				double contentcubic;
+ 				double contentliters;
+ 				String wagontype;
+ 				Passengerswagon pw;
+ 				SolidCargowagon scw;
+ 				LiquidCargowagon lcw;
+ 				Locomotive loco;
+ 				
+ 				while (rs.next()) {
+ 					wagontype=rs.getString("wagontype");
+ 					code=rs.getString("id");
+ 					if (wagontype.equals("Passenger")){
+ 						seats=rs.getInt("seats");
+ 						pw=new Passengerswagon(code, seats);
+ 						wagonlist.add(pw);
+ 					}
+ 					if (wagontype.equals("Locomotive")){
+ 						loco=new Locomotive(code, 1);
+ 						wagonlist.add(loco);
+ 					}
+ 					if (wagontype.equals("SolidCargo")){
+ 						contentcubic=rs.getDouble("ContentCubic");
+ 						scw=new SolidCargowagon(code, contentcubic);
+ 						wagonlist.add(scw);
+ 					}
+ 					if (wagontype.equals("LiquidCargo")){
+ 						contentliters=rs.getDouble("ContentLiters");
+ 						lcw=new LiquidCargowagon(code, contentliters);
+ 						wagonlist.add(lcw);
+ 					}
+ 				}
+ 				// De resultset, het statement en de verbinding sluiten
+ 				rs.close();
+ 				stmt.close();
+ 				conn.close();
+	}
+ 				catch (SQLException e){
+ 					e.printStackTrace();
+ 				}
+	if (wagonlist.isEmpty()==true){
+			return null;
+		}
+ 				return wagonlist.get(0);
+}
 	public void deleteTrain(Train train){
 		try{			
 			Connection conn=super.getConnection();
-						System.out.println("Connection made");
 					
 						// Een eerste SQL statement maken
 						Statement stmt = conn.createStatement();
 						
 						// Een tweede statement maken dat een resultaat oplevert
-						String queryText = "DELETE from Wagons where train_id="+train.getTrainid();
-		 				String queryText2 = "DELETE from Train where id="+train.getTrainid();
+						String queryText = "UPDATE WAGONS set train_id=NULL where train_id='"+train.getTrainid()+"'";
+		 				String queryText2 = "DELETE from Trains where id='"+train.getTrainid()+"'";
+		 				String queryText3 = "DELETE from Wagons where id='"+train.getTrainid()+"' AND wagontype='Locomotive'";
 		 				
 		 				// Een tweede statement uitvoeren
 		 				stmt.executeQuery(queryText);
 		 				stmt.executeQuery(queryText2);
-		 	
+		 				stmt.executeQuery(queryText3);
+		 				
 		 				// De resultset, het statement en de verbinding sluiten
 		 				conn.commit();
 		 				stmt.close();
@@ -210,10 +273,9 @@ public class TrainDAO extends BaseDAO {
 public void createWagon(String id, int value, String wagontype){
 	try{			
 		Connection conn=super.getConnection();
-		
-					System.out.println("Connection made");
 				
 					// Een eerste SQL statement maken
+					System.out.println(value);
 					Statement stmt = conn.createStatement();
 					String queryText="";
 					// Een tweede statement maken dat een resultaat oplevert
@@ -221,7 +283,7 @@ public void createWagon(String id, int value, String wagontype){
 	 					queryText="INSERT INTO WAGONS(id,wagontype,seats) VALUES('"+id+"','Passenger',"+value+")";
 	 				}
 	 				if (wagontype.equals("LiquidCargo")){
-	 					queryText="INSERT INTO WAGONS(id,wagontype,contentliters) VALUES('"+id+",'LiquidCargo',"+value+")";
+	 					queryText="INSERT INTO WAGONS(id,wagontype,contentliters) VALUES('"+id+"','LiquidCargo',"+value+")";
 	 				}
 	 				if (wagontype.equals("SolidCargo")){
 	 					queryText="INSERT INTO WAGONS(id,wagontype,contentcubic) VALUES('"+id+"','SolidCargo',"+value+")";
@@ -240,4 +302,85 @@ public void createWagon(String id, int value, String wagontype){
 	 					e.printStackTrace();
 	 				}
 	}
+public void addWagon(Wagon wagon, Train train){
+	try{			
+		Connection conn=super.getConnection();
+				
+					// Een eerste SQL statement maken
+					Statement stmt = conn.createStatement();
+					// Een tweede statement maken dat een resultaat oplevert
+	 				String queryText="UPDATE WAGONS SET TRAIN_ID='"+train.getTrainid()+"' WHERE ID='"+wagon.getWagonid()+"'";
+	 				// Een tweede statement uitvoeren
+	 				stmt.executeQuery(queryText);
+
+	 				conn.commit();
+	 				stmt.close();
+	 				conn.close();
+		}
+	 				catch (SQLException e){
+	 					e.printStackTrace();
+	 				}
+	}
+public void removeWagon(Wagon wagon, Train train){
+	try{			
+		Connection conn=super.getConnection();
+
+					System.out.println(wagon.getWagonid());
+					System.out.println(train.getTrainid());
+					// Een eerste SQL statement maken
+					Statement stmt = conn.createStatement();
+					// Een tweede statement maken dat een resultaat oplevert
+	 				String queryText="UPDATE WAGONS SET TRAIN_ID=NULL WHERE ID='"+wagon.getWagonid()+"' AND TRAIN_ID='"+train.getTrainid()+"'";;
+	 				// Een tweede statement uitvoeren
+	 				stmt.executeQuery(queryText);
+
+	 				conn.commit();
+	 				stmt.close();
+	 				conn.close();
+		}
+	 				catch (SQLException e){
+	 					e.printStackTrace();
+	 				}
+	}
+public void deleteWagon(Wagon wagon){
+	try{			
+		Connection conn=super.getConnection();
+				
+					// Een eerste SQL statement maken
+					Statement stmt = conn.createStatement();
+					
+					// Een tweede statement maken dat een resultaat oplevert
+					String queryText = "DELETE from Wagons where id='"+wagon.getWagonid()+"'";
+	 				
+	 				// Een tweede statement uitvoeren
+	 				stmt.executeQuery(queryText);
+	 	
+	 				// De resultset, het statement en de verbinding sluiten
+	 				conn.commit();
+	 				stmt.close();
+	 				conn.close();
+		}
+	 				catch (SQLException e){
+	 					e.printStackTrace();
+	 				}
+	}
+	public void updateTrain(Train train){
+		try{			
+			Connection conn=super.getConnection();
+			
+						// Een eerste SQL statement maken
+						Statement stmt = conn.createStatement();
+						// Een tweede statement maken dat een resultaat oplevert
+		 				String queryText="UPDATE Trains SET totalseats="+train.getTotalseats()+" WHERE ID='"+train.getTrainid()+"'";
+		 				// Een tweede statement uitvoeren
+		 				stmt.executeQuery(queryText);
+
+		 				conn.commit();
+		 				stmt.close();
+		 				conn.close();
+			}
+		 				catch (SQLException e){
+		 					e.printStackTrace();
+		 				}
+		}
 }
