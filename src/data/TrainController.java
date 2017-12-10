@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 import design.LiquidCargowagon;
+import design.Locomotive;
 import design.Passengerswagon;
 import design.SolidCargowagon;
 import design.Train;
@@ -158,8 +159,9 @@ public class TrainController {
 		
 //COMMAND INTERFACE MAIN METHOD
 		public void commandExecute(String command){
-	if (command.toLowerCase().contains("new")) {
-		if (command.toLowerCase().contains("train") && idcontrol(command) == true) {
+			System.out.println(command.substring(0,3));
+	if (command.substring(0,3).equals("new")) {
+		if (command.substring(4,9).equals("train") && idcontrol(command) == true) {
 			String execution = command.replace("new train ", "");
 			//check if train exists already
 			if (TrainControl(execution) == false) {
@@ -173,14 +175,12 @@ public class TrainController {
 		else if (command.toLowerCase().contains("wagon") && idcontrol(command) == true) {
 			String id = "";
 			//create passengerwagon
-			if (command.toLowerCase().contains("passengerwagon")) {
-				id += command.toLowerCase().charAt(19);
-				id += command.toLowerCase().charAt(20);
-				id += command.toLowerCase().charAt(21);
+			if (command.substring(4,18).equals("passengerwagon")){
+				id += command.substring(19,22);
 				//check if wagon exists already
 				if (WagonControl(id)==false){
 				//check for optional numseats input
-				if (command.toLowerCase().contains("numseats")) {
+				if (command.substring(23,31).equals("numseats")) {
 					String value = command.substring(32, command.length());
 					createPassengerWagon(id, Integer.parseInt(value));
 					ui.output.append("passengerwagon " + id + " created with " + value + " seats.\n");
@@ -193,14 +193,12 @@ public class TrainController {
 				}
 			}
 			//create a liquidcargowagon
-			if (command.toLowerCase().contains("liquidcargowagon")) {
-				id += command.toLowerCase().charAt(21);
-				id += command.toLowerCase().charAt(22);
-				id += command.toLowerCase().charAt(23);
+			if (command.substring(4,20).contains("liquidcargowagon")) {
+				id += command.substring(21,24);
 				//check if wagon exists already
 				if (WagonControl(id)==false){
 				//check for required contentlit input
-				if (command.toLowerCase().contains("contentlit")) {
+				if (command.substring(25,35).equals("contentlit")) {
 					String value = command.substring(36, command.length());
 					createLiquidCargoWagon(id, Integer.parseInt(value));
 					ui.output.append(
@@ -213,15 +211,12 @@ public class TrainController {
 				}
 			}
 			//create solidcargowagon
-			if (command.toLowerCase().contains("solidcargowagon")) {
-				id += command.toLowerCase().charAt(20);
-				id += command.toLowerCase().charAt(21);
-				id += command.toLowerCase().charAt(22);
-				System.out.println(id);
+			if (command.substring(4,19).contains("solidcargowagon")) {
+				id += command.substring(20,23);
 				//check if wagon exists already
 				if (WagonControl(id)==false){
 				//check for required contentcub input
-				if (command.toLowerCase().contains("contentcub")) {
+				if (command.substring(24,34).equals("contentcub")) {
 					String value = command.substring(35, command.length());
 					createSolidCargoWagon(id, Integer.parseInt(value));
 					ui.output.append("solidcargowagon " + id + " created with " + value
@@ -239,9 +234,9 @@ public class TrainController {
 		}
 	}
 	// get numseats from passengerwagons and trains
-	else if (command.toLowerCase().contains("getnumseats")) {
+	else if (command.substring(0,11).equals("getnumseats")) {
 		//get seats from train
-		if (command.toLowerCase().contains("train")) {
+		if (command.substring(12,17).equals("train")) {
 			String execution = command.replace("getnumseats train ", "");
 			int result = getNumseatsTrain(execution);
 			//check if train exists
@@ -252,7 +247,7 @@ public class TrainController {
 			}
 		}
 		// get seats from passengerswagon
-		else if (command.toLowerCase().contains("passengerwagon")) {
+		else if (command.substring(12,26).equals("passengerwagon")) {
 			String id = command.replace("getnumseats passengerwagon ", "");
 			Wagon wag=getWagon(id);
 			//check if wagon is a passengerwagon
@@ -269,8 +264,8 @@ public class TrainController {
 		}
 	}
 	// get contentlit from liquidcargowagons and trains
-	else if (command.toLowerCase().contains("getcontentlit")) {
-		if (command.toLowerCase().contains("train")) {
+	else if (command.substring(0,13).equals("getcontentlit")) {
+		if (command.substring(14,19).equals("train")) {
 			String execution = command.replace("getcontentlit train ", "");
 			//check if train exists
 			if (TrainControl(execution)==true){
@@ -286,7 +281,7 @@ public class TrainController {
 			}
 		}
 		//get contentlit of liquidcargowagon
-		else if (command.toLowerCase().contains("liquidcargowagon")) {
+		else if (command.substring(14,30).equals("liquidcargowagon")) {
 			String id = command.replace("getcontentlit liquidcargowagon ", "");
 			Wagon wag=getWagon(id);
 			if (wag.getClass()==LiquidCargowagon.class){
@@ -302,8 +297,8 @@ public class TrainController {
 		}
 	}
 	//get contentcub of solidcargowagon
-	else if (command.toLowerCase().contains("getcontentcub")) {
-		if (command.toLowerCase().contains("train")) {
+	else if (command.substring(0,13).equals("getcontentcub")) {
+		if (command.substring(14,19).equals("train")) {
 			String execution = command.replace("getcontentcub train ", "");
 			if (TrainControl(execution)==true){
 			int result = getContentcubTrain(execution);
@@ -318,7 +313,7 @@ public class TrainController {
 			}
 		}
 		//get contentcub of solidcargowagon
-		else if (command.toLowerCase().contains("solidcargowagon")) {
+		else if (command.substring(14,29).equals("solidcargowagon")) {
 			String id = command.replace("getcontentcub solidcargowagon ", "");
 			Wagon wag=getWagon(id);
 			if (wag.getClass()==SolidCargowagon.class){
@@ -334,19 +329,27 @@ public class TrainController {
 		}
 	}
 	// add wagon to train
-	else if (command.toLowerCase().contains("add")) {
-		String wagon_id = "";
-		String train_id = "";
-		wagon_id += command.toLowerCase().charAt(4);
-		wagon_id += command.toLowerCase().charAt(5);
-		wagon_id += command.toLowerCase().charAt(6);
-
-		train_id += command.toLowerCase().charAt(11);
-		train_id += command.toLowerCase().charAt(12);
-		train_id += command.toLowerCase().charAt(13);
-
+	else if (command.substring(0,3).equals("add")) {
+		String wagon_id = command.substring(4,7);
+		String train_id = command.substring(11, 14);
+		
 		Wagon wag = getWagon(wagon_id);
 		Train tr = getTrain(train_id);
+		//individual errors
+		if (wag==null){
+			ui.output.append("The given wagon doesn't exist or isn't a wagon.\n");
+		}
+		if (tr==null){
+			ui.output.append("The given train doesn't exist or isn't a train.\n");
+		}
+		if (getWagon(wagon_id).getClass().equals(Locomotive.class)) {
+			ui.output.append("The given wagon is a locomotive; locomotives can't be moved to other trains.\n");
+		}
+		if (addWagonControl(wag, tr) == true) {
+			ui.output.append("wagon " + wag.getWagonid() + " is already attached to train " + tr.getTrainid() + ".\n");
+		}
+		//final control
+		if (wag!=null && tr!=null && !wag.getClass().equals(Locomotive.class)&&addWagonControl(wag,tr)==false){
 		addWagon(wag, tr);
 		if (getWagon(wagon_id).getClass().equals(Passengerswagon.class)) {
 			Passengerswagon paswag = (Passengerswagon) wag;
@@ -364,25 +367,31 @@ public class TrainController {
 			ui.output.append("liquidcargowagon " + wag.getWagonid() + " has been added to train "
 					+ tr.getTrainid() + "\n");
 		}
-	}
+		
+	}}
 	// remove wagon from train
-	else if (command.toLowerCase().contains("remove")) {
-		String wagon_id = "";
-		String train_id = "";
-		wagon_id += command.toLowerCase().charAt(7);
-		wagon_id += command.toLowerCase().charAt(8);
-		wagon_id += command.toLowerCase().charAt(9);
-
-		train_id += command.toLowerCase().charAt(16);
-		train_id += command.toLowerCase().charAt(17);
-		train_id += command.toLowerCase().charAt(18);
+	else if (command.substring(0,6).equals("remove")) {
+		String wagon_id = command.substring(7,10);
+		String train_id = command.substring(16,19);
 
 		Wagon wag = getWagon(wagon_id);
 		Train tr = getTrain(train_id);
-		removeWagon(wag, tr);
-		if (addWagonControl(wag, tr) == true) {
-			ui.output.append("wagon " + wag.getWagonid() + " is already in train " + tr.getTrainid() + "\n");
-		} else {
+		//individual errors
+		if (wag==null){
+			ui.output.append("The given wagon doesn't exist or isn't a wagon.\n");
+		}
+		if (tr==null){
+			ui.output.append("The given train doesn't exist or isn't a train.\n");
+		}
+		if (getWagon(wagon_id).getClass().equals(Locomotive.class)) {
+			ui.output.append("The given wagon is a locomotive; locomotives can't be moved to other trains.\n");
+		}
+		if (addWagonControl(wag, tr) == false) {
+			ui.output.append("wagon " + wag.getWagonid() + " is not attached to train " + tr.getTrainid() + ".\n");
+		}
+		//final control
+		if (wag!=null && tr!=null && !wag.getClass().equals(Locomotive.class)&&addWagonControl(wag,tr)==true){
+			removeWagon(wag,tr);
 			if (getWagon(wagon_id).getClass().equals(Passengerswagon.class)) {
 				Passengerswagon paswag = (Passengerswagon) wag;
 				//remove seats of wagon from totalseats of train
@@ -402,13 +411,10 @@ public class TrainController {
 		}
 	}
 	// delete train or wagon
-	else if (command.toLowerCase().contains("delete")) {
-		String target = "";
-		target += command.toLowerCase().charAt(13);
-		target += command.toLowerCase().charAt(14);
-		target += command.toLowerCase().charAt(15);
+	else if (command.substring(0,6).equals("delete")) {
+		String target = command.substring(13,16);
 		//delete train
-		if (command.toLowerCase().contains("train")) {
+		if (command.substring(7,12).equals("train")) {
 			if (getTrain(target) != null) {
 				deleteTrain(getTrain(target));
 				ui.output.append("train " + target + " deleted.\n");
@@ -418,14 +424,21 @@ public class TrainController {
 
 		}
 		//delete wagon
-		if (command.toLowerCase().contains("wagon")) {
+		else if (command.substring(7,12).equals("wagon")) {
 			if (getWagon(target) != null) {
+				if (getWagon(target).getClass().equals(Locomotive.class)) {
+					ui.output.append("The given wagon is a locomotive; locomotives can't removed.\n");
+				}
+				else{
 				deleteWagon(getWagon(target));
 				ui.output.append("wagon " + target + " deleted.\n");
-			} else {
+			}} else {
 				ui.output.append("wagon " + target + " does not exist.\n");
 			}
 
+		}
+		else{
+			ui.output.append("No correct type given; use train or wagon.\n");
 		}
 	}
 	// command doesn't exist
