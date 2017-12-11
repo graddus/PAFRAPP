@@ -96,15 +96,14 @@ public class TrainGUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// check Train doesnt exist already
-				if (tfNewTrain.getText().length() !=0 && tc.getTrain(tfNewTrain.getText()) ==null) {
-				System.out.print("train doesnt exist with id"+tfNewTrain.getText() );
-				//adds a train and locomotive in dao
-				tc.createTrain(tfNewTrain.getText());
-				loadTrains();
-				//
-				//setselectedcbAllTrains.setSelectedItem(2);;
-				//
-				 }
+				if (tfNewTrain.getText().length() != 0 && tc.getTrain(tfNewTrain.getText()) == null) {
+					// adds a train and locomotive in dao
+					tc.createTrain(tfNewTrain.getText());
+					loadTrains();
+					cbAllTrains.setSelectedItem(tfNewTrain.getText());
+					System.out.println("added train:" + getSelectedTrain().getTrainid());
+
+				}
 
 			}
 		});
@@ -114,21 +113,86 @@ public class TrainGUI {
 			public void actionPerformed(ActionEvent e) {
 				// Happens when button is pressed
 				if (cbAllTrains.getSelectedItem() != null) {
-					tc.deleteTrain(tc.getTrain(cbAllTrains.getSelectedItem().toString()));
+					System.out.println("deleted train:" + getSelectedTrain().getTrainid());
+					tc.deleteTrain(getSelectedTrain());
 					loadTrains();
-					System.out.print("deleted train:" + cbAllTrains.getSelectedItem());
+
 				}
 			}
 		});
 
+		btnAddWagon1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Happens when button is pressed
+				addwagon("Passengerswagon");
+			}
+		});
+		btnDeleteWagon1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Happens when button is pressed
+				deleteWagon("Passengerswagon");
+			}
+		});
+
+	}
+
+	private void addwagon(String wagontype) {
+		String id="214";
+		//TODO Select max id
+		
+		if (cbAllTrains.getSelectedItem() != null) {
+			
+			if (wagontype.equals("Passengerswagon")) {
+				tc.createPassengerWagon((id));
+			} else if (wagontype.equals("Solid")) {
+				tc.createPassengerWagon(id);
+			} else {
+				//(wagontype.equals("Liquid")) {
+				tc.createPassengerWagon(id);
+			}
+			
+			tc.addWagon(tc.getWagon(id), getSelectedTrain());
+			System.out.println("created " + wagontype + " with id " +id+ " and added it to train"
+					+ getSelectedTrain().getTrainid());
+			
+			// TODO reload the SELECTED train and redraw it
+			// loadTrains();
+		}
+	}
+
+	private void deleteWagon(String wagontype) {
+		if (cbAllTrains.getSelectedItem() != null) {
+			Wagon toDelete = null;
+			for (Wagon w : tc.getWagons(getSelectedTrain())) {
+				if (w.getClass().getSimpleName().toString().equals(wagontype)) {
+					toDelete = w;
+					//System.out.println("TODELETE=" + toDelete.getWagonid());
+				}
+			}
+			if (toDelete != null) {
+				tc.deleteWagon(toDelete);
+				System.out.println("deleted wagon with id " + toDelete.getWagonid() + " and removed it from train"
+						+ getSelectedTrain().getTrainid());
+				// TODO reload the SELECTEDtrain and draw new wagon
+				// loadTrains();
+			} else {
+				// Train doesnt have any wagons of paramater wagontype
+			}
+		}
 	}
 
 	public void loadTrains() {
 		cbAllTrains.removeAllItems();
 		for (Train t : tc.getTrains()) {
 			cbAllTrains.addItem(t.getTrainid());
-			System.out.println("Train found");
+			// System.out.println("Train found");
 		}
+	}
+
+	public Train getSelectedTrain() {
+		return tc.getTrain(cbAllTrains.getSelectedItem().toString());
 	}
 
 	public static void main(String args[]) {
