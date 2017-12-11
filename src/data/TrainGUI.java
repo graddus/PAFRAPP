@@ -92,25 +92,45 @@ public class TrainGUI {
 		frame.setVisible(true);
 
 		// Command button functions
+		btnNewTrain.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// check Train doesnt exist already
+				if (tfNewTrain.getText().length() !=0 && tc.getTrain(tfNewTrain.getText()) ==null) {
+				System.out.print("train doesnt exist with id"+tfNewTrain.getText() );
+				//adds a train and locomotive in dao
+				tc.createTrain(tfNewTrain.getText());
+				loadTrains();
+				//
+				//setselectedcbAllTrains.setSelectedItem(2);;
+				//
+				 }
+
+			}
+		});
+
 		btnDeleteTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Happens when button is pressed
-				System.out.print("test ");
+				if (cbAllTrains.getSelectedItem() != null) {
+					tc.deleteTrain(tc.getTrain(cbAllTrains.getSelectedItem().toString()));
+					loadTrains();
+					System.out.print("deleted train:" + cbAllTrains.getSelectedItem());
+				}
 			}
 		});
 
 	}
 
-	
 	public void loadTrains() {
+		cbAllTrains.removeAllItems();
 		for (Train t : tc.getTrains()) {
 			cbAllTrains.addItem(t.getTrainid());
 			System.out.println("Train found");
 		}
 	}
 
-	
 	public static void main(String args[]) {
 		TrainGUI gui = new TrainGUI();
 		gui.loadTrains();
