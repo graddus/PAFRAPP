@@ -114,6 +114,11 @@ public class TrainGUI {
 				// Happens when button is pressed
 				if (cbAllTrains.getSelectedItem() != null) {
 					System.out.println("deleted train:" + getSelectedTrain().getTrainid());
+					//deleting all wagons associated with the train
+					for (Wagon w:getSelectedTrain().getWagonlist()){
+						tc.deleteWagon(w);
+					}
+					
 					tc.deleteTrain(getSelectedTrain());
 					loadTrains();
 
@@ -124,51 +129,80 @@ public class TrainGUI {
 		btnAddWagon1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Happens when button is pressed
 				addwagon("Passengerswagon");
 			}
 		});
+		
 		btnDeleteWagon1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Happens when button is pressed
 				deleteWagon("Passengerswagon");
 			}
 		});
 
+		btnAddWagon2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addwagon("SolidCargowagon");
+			}
+		});
+		
+		btnDeleteWagon2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deleteWagon("SolidCargowagon");
+			}
+		});
+		
+		btnAddWagon3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addwagon("LiquidCargowagon");
+			}
+		});
+		
+		btnDeleteWagon3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deleteWagon("LiquidCargowagon");
+			}
+		});
 	}
 
 	private void addwagon(String wagontype) {
-		String id="214";
-		//TODO Select max id
+		//generates id and adds a wagon , if wagon is liquid/cargo content is set to 1000
+		int content =1000;
 		
+		int maxid=tc.getMaxWagonId();
+		String id=Integer.toString((maxid+1));
 		if (cbAllTrains.getSelectedItem() != null) {
 			
 			if (wagontype.equals("Passengerswagon")) {
 				tc.createPassengerWagon((id));
-			} else if (wagontype.equals("Solid")) {
-				tc.createPassengerWagon(id);
+			} else if (wagontype.equals("SolidCargowagon")) {
+				tc.createSolidCargoWagon(id, content);
 			} else {
 				//(wagontype.equals("Liquid")) {
-				tc.createPassengerWagon(id);
+				tc.createLiquidCargoWagon(id, content);
 			}
 			
 			tc.addWagon(tc.getWagon(id), getSelectedTrain());
 			System.out.println("created " + wagontype + " with id " +id+ " and added it to train"
 					+ getSelectedTrain().getTrainid());
-			
 			// TODO reload the SELECTED train and redraw it
 			// loadTrains();
 		}
 	}
 
 	private void deleteWagon(String wagontype) {
+		
+		//loop through all wagons and delete the last one of given type
 		if (cbAllTrains.getSelectedItem() != null) {
 			Wagon toDelete = null;
 			for (Wagon w : tc.getWagons(getSelectedTrain())) {
+				//System.out.println("checking for type="+w.getClass().getSimpleName().toString());
 				if (w.getClass().getSimpleName().toString().equals(wagontype)) {
 					toDelete = w;
-					//System.out.println("TODELETE=" + toDelete.getWagonid());
 				}
 			}
 			if (toDelete != null) {
