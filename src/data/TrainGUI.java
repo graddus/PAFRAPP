@@ -55,32 +55,32 @@ public class TrainGUI {
 		btnDeleteTrain.setLocation(200, 350);
 		contentPane.add(btnDeleteTrain);
 		// Wagonbuttons
-		JButton btnAddWagon1 = new JButton("Add Wagon1");
+		JButton btnAddWagon1 = new JButton("+Passengers");
 		btnAddWagon1.setSize(130, 30);
 		btnAddWagon1.setLocation(400, 250);
 		contentPane.add(btnAddWagon1);
 
-		JButton btnDeleteWagon1 = new JButton("Delete Wagon1");
+		JButton btnDeleteWagon1 = new JButton("-Passengers");
 		btnDeleteWagon1.setSize(130, 30);
 		btnDeleteWagon1.setLocation(550, 250);
 		contentPane.add(btnDeleteWagon1);
 
-		JButton btnAddWagon2 = new JButton("Add Wagon2");
+		JButton btnAddWagon2 = new JButton("+SolidCargo");
 		btnAddWagon2.setSize(130, 30);
 		btnAddWagon2.setLocation(400, 350);
 		contentPane.add(btnAddWagon2);
 
-		JButton btnDeleteWagon2 = new JButton("Delete Wagon2");
+		JButton btnDeleteWagon2 = new JButton("-SolidCargo");
 		btnDeleteWagon2.setSize(130, 30);
 		btnDeleteWagon2.setLocation(550, 350);
 		contentPane.add(btnDeleteWagon2);
 
-		JButton btnAddWagon3 = new JButton("Add Wagon3");
+		JButton btnAddWagon3 = new JButton("+LiquidCargo");
 		btnAddWagon3.setSize(130, 30);
 		btnAddWagon3.setLocation(400, 450);
 		contentPane.add(btnAddWagon3);
 
-		JButton btnDeleteWagon3 = new JButton("Delete Wagon3");
+		JButton btnDeleteWagon3 = new JButton("-LiquidCargo");
 		btnDeleteWagon3.setSize(130, 30);
 		btnDeleteWagon3.setLocation(550, 450);
 		contentPane.add(btnDeleteWagon3);
