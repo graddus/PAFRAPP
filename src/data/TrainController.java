@@ -91,12 +91,8 @@ public class TrainController {
 			}
 		}
 		//check if given train exists
-		public boolean TrainControl(String command) {
+		public boolean TrainControl(String id) {
 			boolean result = true;
-			String id = "";
-			id += command.charAt(0);
-			id += command.charAt(1);
-			id += command.charAt(2);
 			if (dao.getTrain(id) == null) {
 				result = false;
 			}
@@ -105,11 +101,7 @@ public class TrainController {
 		//check if given wagon exists
 		public boolean WagonControl(String command) {
 			boolean result = true;
-			String id = "";
-			id += command.charAt(0);
-			id += command.charAt(1);
-			id += command.charAt(2);
-			if (dao.getWagon(id) == null) {
+			if (dao.getWagon(command) == null) {
 				result = false;
 			}
 			return result;
@@ -121,7 +113,7 @@ public class TrainController {
 			id = id.replace("new liquidcargowagon ", "");
 			id = id.replace("new solidcargowagon ", "");
 			boolean result = false;
-			if (Character.isLetter(id.charAt(0)) && Character.isLetter(id.charAt(1)) && Character.isDigit(id.charAt(2))) {
+			if (Character.isLetter(id.charAt(0))) {
 				result = true;
 			}
 			return result;
