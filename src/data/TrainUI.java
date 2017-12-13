@@ -56,7 +56,7 @@ public class TrainUI {
 			public void actionPerformed(ActionEvent e) {
 				String command = input.getText();
 				console.append(command + "\n");
-				tc.commandExecute(command);
+				tc.executeCommand(command);
 			}
 		});
 
