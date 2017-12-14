@@ -16,5 +16,7 @@ public class test {
 	    
 	    System.out.println(str.length());
 	    System.out.println(str);
+	    
+	    
 	}
 }
