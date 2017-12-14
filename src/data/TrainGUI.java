@@ -7,6 +7,9 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 import java.awt.*;
 
 import javax.imageio.ImageIO;
@@ -27,103 +30,116 @@ public class TrainGUI {
 	public static JComboBox cbAllWagons;
 	//public static JFrame frame;
 	public static JPanel contentPane;
+	public static JPanel  paintPane;
 	public final static TrainController tc = new TrainController();
-
+	
 	public TrainGUI() {
 		JFrame frame= new JFrame();
 		// Setup of GUI
+		JPanel mainPanel = new JPanel();
 		frame = new JFrame("RichRail1");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
+		contentPane.setSize(1000,1000);
+		contentPane.setLocation(0,250);
+		contentPane.setLayout(null);
+		
+		paintPane = new JPanel ();
+		paintPane.setSize(1500,250);
+		paintPane.setLocation(0,0);
+		paintPane.setLayout(null);
 		//JPanel jPanel2 = new JPanel();
 		// contentPane.setOpaque(true);
 		// contentPane.setBackground(Color.WHITE);
-		contentPane.setLayout(null);
+		mainPanel.setLayout(null);
 		int x = 15;
-
+		int y=0;
 		// Adding all the ui Components
 		JLabel lbNewTrain = new JLabel("New Train: ");
 		lbNewTrain.setSize(300, 30);
-		lbNewTrain.setLocation(x, 250);
+		lbNewTrain.setLocation(x, y);
 		contentPane.add(lbNewTrain);
 
 		JTextField tfNewTrain = new JTextField("Train name?");
 		tfNewTrain.setSize(100, 30);
-		tfNewTrain.setLocation(x, 300);
+		tfNewTrain.setLocation(x, y+50);
 		contentPane.add(tfNewTrain);
 
 		JButton btnNewTrain = new JButton("Add Train");
 		btnNewTrain.setSize(100, 30);
-		btnNewTrain.setLocation(x, 350);
+		btnNewTrain.setLocation(x, y+100);
 		contentPane.add(btnNewTrain);
 		//
 		cbAllTrains = new JComboBox();
 		cbAllTrains.setSize(150, 30);
-		cbAllTrains.setLocation(250, 250);
+		cbAllTrains.setLocation(250, y);
 		contentPane.add(cbAllTrains);
 
 		JButton btnDeleteTrain = new JButton("Delete Train");
 		btnDeleteTrain.setSize(130, 30);
-		btnDeleteTrain.setLocation(250, 300);
+		btnDeleteTrain.setLocation(250, y+50);
 		contentPane.add(btnDeleteTrain);
 
 		cbAllWagons = new JComboBox();
 		cbAllWagons.setSize(150, 30);
-		cbAllWagons.setLocation(250, 400);
+		cbAllWagons.setLocation(250, y+150);
 		contentPane.add(cbAllWagons);
 
 		JButton btnDeleteWagon = new JButton("Delete Wagon");
 		btnDeleteWagon.setSize(130, 30);
-		btnDeleteWagon.setLocation(250, 450);
+		btnDeleteWagon.setLocation(250, y+200);
 		contentPane.add(btnDeleteWagon);
 
 		// Wagonbuttons
 		x = 550;
 		JButton btnAddWagon1 = new JButton("+Passengers");
 		btnAddWagon1.setSize(130, 30);
-		btnAddWagon1.setLocation(x, 250);
+		btnAddWagon1.setLocation(x, y);
+		btnAddWagon1.setForeground(Color.red);
 		contentPane.add(btnAddWagon1);
-
+		
 		JButton btnAddWagon2 = new JButton("+SolidCargo");
 		btnAddWagon2.setSize(130, 30);
-		btnAddWagon2.setLocation(x, 350);
+		btnAddWagon2.setLocation(x, y+100);
+		btnAddWagon2.setForeground(Color.blue);
 		contentPane.add(btnAddWagon2);
-
+		
 		JButton btnAddWagon3 = new JButton("+LiquidCargo");
 		btnAddWagon3.setSize(130, 30);
-		btnAddWagon3.setLocation(x, 450);
+		btnAddWagon3.setLocation(x, y+200);
+		btnAddWagon3.setForeground(Color.yellow);
 		contentPane.add(btnAddWagon3);
 
 		// extra textfields
 
 		JLabel lbSeats = new JLabel("Seats: ");
 		lbSeats.setSize(300, 30);
-		lbSeats.setLocation(x, 300);
+		lbSeats.setLocation(x, y+50);
 		contentPane.add(lbSeats);
 
 		JTextField tfSeats = new JTextField("20");
 		tfSeats.setSize(80, 30);
-		tfSeats.setLocation(x + 50, 300);
+		tfSeats.setLocation(x + 50, y+50);
 		contentPane.add(tfSeats);
 
 		JLabel lbSolid = new JLabel("Content: ");
 		lbSolid.setSize(300, 30);
-		lbSolid.setLocation(x, 400);
+		lbSolid.setLocation(x, y+150);
 		contentPane.add(lbSolid);
 
 		JTextField tfSolid = new JTextField("100");
 		tfSolid.setSize(80, 30);
-		tfSolid.setLocation(x + 50, 400);
+		tfSolid.setLocation(x + 50, y+150);
 		contentPane.add(tfSolid);
 
 		JLabel lbLiquid = new JLabel("Content: ");
 		lbLiquid.setSize(300, 30);
-		lbLiquid.setLocation(x, 500);
+		lbLiquid.setLocation(x, y+250);
 		contentPane.add(lbLiquid);
 
 		JTextField tfLiquid = new JTextField("100");
 		tfLiquid.setSize(80, 30);
-		tfLiquid.setLocation(x + 50, 500);
+		tfLiquid.setLocation(x + 50, y+250);
 		contentPane.add(tfLiquid);
 			
 		//
@@ -143,14 +159,19 @@ public class TrainGUI {
 //		locoLabel.setIcon(locoIcon);
 //		
 //		contentPane.add(locoLabel);
-		
 		// displaying frame
 
-		frame.setContentPane(contentPane);
-		// frame.getContentPane().add(,);
+		//frame.setContentPane(contentPane);
+		mainPanel.add(paintPane);
+		mainPanel.add(contentPane);
+		//mainPanel.add(btnAddWagon3);
+	//	frame.setLayeredPane(paintPane);
+		frame.setContentPane(mainPanel);
+		//frame.add(mainPanel);
 		frame.setSize(800, 600);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
+	
 
 		
 		
@@ -174,7 +195,9 @@ public class TrainGUI {
 
 		cbAllTrains.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(getSelectedTrain()!= null){
 				loadWagons();
+				}
 				System.out.println("Selected other train!");
 			}
 		});
@@ -233,12 +256,13 @@ public class TrainGUI {
 	private void addwagon(String wagontype, JTextField input) {
 		try {
 			String S = input.getText();
-
 			int content = Integer.parseInt(S);
-
-			int maxid = tc.getMaxWagonId();
-			String id = Integer.toString((maxid + 1));
-
+			//int maxid = tc.getMaxWagonId();//TODO remove as not used
+			String id= getRandomid();
+			System.out.println(tc.getWagon(id));
+			while(tc.getWagon(id)!= null){
+				id=getRandomid();
+			};
 			if (cbAllTrains.getSelectedItem() != null) {
 				if (wagontype.equals("Passengerswagon")) {
 					tc.createPassengerWagon(id, content);
@@ -273,11 +297,15 @@ public class TrainGUI {
 			cbAllTrains.addItem(t.getTrainid());
 
 		}
-		loadWagons();
+		if (getSelectedTrain()!=null){
+			loadWagons();
+		}
+	
 	}
 
 	public void loadWagons(){
 		cbAllWagons.removeAllItems();
+		
 		Train selected = getSelectedTrain();
 		for (Wagon w :selected.getWagonlist()){
 			if (w.getClass() != Locomotive.class) {
@@ -295,12 +323,17 @@ public class TrainGUI {
 		}
 
 	public Train getSelectedTrain() {
-		return tc.getTrain(cbAllTrains.getSelectedItem().toString());
+		if (cbAllTrains.getSelectedItem()!= null){
+			return tc.getTrain(cbAllTrains.getSelectedItem().toString());
+		}
+		return null;
 	}
 
 	public void drawTrain(Train train) throws IOException {
+		
 		System.out.println("Drawing train");
 		// Create locomotive
+		paintPane.removeAll();
 		JLabel locoLabel = new JLabel();
 		locoLabel.setSize(200, 200);
 		locoLabel.setLocation(5, 5);
@@ -309,25 +342,74 @@ public class TrainGUI {
 		locoIcon.setImage(locoImg);
 		locoLabel.setIcon(locoIcon);
 		
-		contentPane.add(locoLabel);
-		contentPane.repaint();
+		paintPane.add(locoLabel);
 		//contentPane.add(cbAllWagons);
 		// Create the cart if they exist
-		int numberOfCarts = tc.getLengthOfTrain(train);
-		for (int x = 0; x < numberOfCarts; x++) {
-			ImageIcon cartIcon = new ImageIcon();
-			BufferedImage cartImg = ImageIO.read(new File("cart.png"));
-			cartIcon.setImage(cartImg);
-			// jlabel.setIcon(icon);
+		int x=0;
+		//int numberOfCarts = tc.getLengthOfTrain(train);//TODO overbodig, verwijder in controller+dao?
+		for (Wagon w: train.getWagonlist()) {
+			if (w.getClass()!= Locomotive.class){
+				double content = 0;
+				String url = "hetplaatje.png";
+				if (w.getClass() == Passengerswagon.class){
+					Passengerswagon pw =(Passengerswagon) w;
+					content=pw.getSeats();
+					 url = "pass.png";
+				}
+				else if (w.getClass() == SolidCargowagon.class){
+					SolidCargowagon sw =(SolidCargowagon) w;
+					content=sw.getContentcubic();
+					 url = "solid.png";
+				}
+				else{
+					LiquidCargowagon lw =(LiquidCargowagon) w;
+					content=lw.getContentliters();
+					 url = "liquid.png";
+				}
+				
+				JLabel idLabel = new JLabel(w.getWagonid());
+				idLabel.setSize(200, 20);
+				idLabel.setLocation(250+x*200, 70);
+				
+				JLabel contentLabel = new JLabel(""+content);
+				contentLabel.setSize(200, 20);
+				contentLabel.setLocation(210+x*200, 180);
+				
+				
+				JLabel WagonLabel = new JLabel();
+				WagonLabel.setSize(200, 200);
+				WagonLabel.setLocation(170+x*200, 30);
+				ImageIcon cartIcon = new ImageIcon();
+				BufferedImage cartImg = ImageIO.read(new File(url));
+				cartIcon.setImage(cartImg);
+				WagonLabel.setIcon(cartIcon);
+				paintPane.add(WagonLabel);
+				paintPane.add(idLabel);
+				paintPane.add(contentLabel);
+				x++;
+			}
 		}
+		
+		paintPane.repaint();
+		//contentPane.repaint();
 		System.out.println("Drawing train ending");
 	}
 
+	public String getRandomid(){
+	    Random r = new Random();
+	    String id= "";
+	    String alphabet = "abcdefghijklmnopqrstuvwxyz";
+	        
+	    id+= alphabet.charAt(r.nextInt(alphabet.length()));
+	    id+= alphabet.charAt(r.nextInt(alphabet.length())); 
+	    id+=r.nextInt(999) + 1;
+	    return id;
+	}
 	
 	public static void main(String args[]) {
 		TrainGUI gui = new TrainGUI();
 		gui.loadTrains();
-
+		 
 		// Graphics g = drawPanel.getGraphics();
 		/*
 		 * jComboBox1.addActionListener(new ActionListener() {
