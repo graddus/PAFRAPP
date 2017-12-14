@@ -14,10 +14,12 @@ import design.Passengerswagon;
 import design.SolidCargowagon;
 import design.Train;
 import design.Wagon;
+import oracle.net.aso.s;
 
 public class TrainGUI {
-
+	
 	public static JComboBox cbAllTrains;
+	public static JComboBox cbAllWagons;
 	public final static TrainController tc = new TrainController();
 
 	public TrainGUI() {
@@ -25,73 +27,121 @@ public class TrainGUI {
 		JFrame frame = new JFrame("RichRail1");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JPanel contentPane = new JPanel();
+		JPanel jPanel2 = new JPanel();
 		// contentPane.setOpaque(true);
 		// contentPane.setBackground(Color.WHITE);
 		contentPane.setLayout(null);
-
+		int x=15;
+		
 		// Adding all the ui Components
 		JLabel lbNewTrain = new JLabel("New Train: ");
 		lbNewTrain.setSize(300, 30);
-		lbNewTrain.setLocation(5, 250);
+		lbNewTrain.setLocation(x, 250);
 		contentPane.add(lbNewTrain);
 
 		JTextField tfNewTrain = new JTextField("Train name?");
 		tfNewTrain.setSize(100, 30);
-		tfNewTrain.setLocation(5, 300);
+		tfNewTrain.setLocation(x, 300);
 		contentPane.add(tfNewTrain);
 
 		JButton btnNewTrain = new JButton("Add Train");
 		btnNewTrain.setSize(100, 30);
-		btnNewTrain.setLocation(5, 350);
+		btnNewTrain.setLocation(x, 350);
 		contentPane.add(btnNewTrain);
-
+		//
 		cbAllTrains = new JComboBox();
 		cbAllTrains.setSize(150, 30);
-		cbAllTrains.setLocation(200, 250);
+		cbAllTrains.setLocation(250, 250);
 		contentPane.add(cbAllTrains);
-
+	
 		JButton btnDeleteTrain = new JButton("Delete Train");
 		btnDeleteTrain.setSize(130, 30);
-		btnDeleteTrain.setLocation(200, 350);
+		btnDeleteTrain.setLocation(250, 300);
 		contentPane.add(btnDeleteTrain);
+		
+		cbAllWagons = new JComboBox();
+		cbAllWagons.setSize(150, 30);
+		cbAllWagons.setLocation(250, 400);
+		contentPane.add(cbAllWagons);
+		
+		JButton btnDeleteWagon = new JButton("Delete Wagon");
+		btnDeleteWagon.setSize(130, 30);
+		btnDeleteWagon.setLocation(250, 450);
+		contentPane.add(btnDeleteWagon);
+		
 		// Wagonbuttons
+		x=550;
 		JButton btnAddWagon1 = new JButton("+Passengers");
 		btnAddWagon1.setSize(130, 30);
-		btnAddWagon1.setLocation(400, 250);
+		btnAddWagon1.setLocation(x, 250);
 		contentPane.add(btnAddWagon1);
 
-		JButton btnDeleteWagon1 = new JButton("-Passengers");
-		btnDeleteWagon1.setSize(130, 30);
-		btnDeleteWagon1.setLocation(550, 250);
-		contentPane.add(btnDeleteWagon1);
+//		JButton btnDeleteWagon1 = new JButton("-Passengers");
+//		btnDeleteWagon1.setSize(130, 30);
+//		btnDeleteWagon1.setLocation(x+150, 250);
+//		//contentPane.add(btnDeleteWagon1);
 
 		JButton btnAddWagon2 = new JButton("+SolidCargo");
 		btnAddWagon2.setSize(130, 30);
-		btnAddWagon2.setLocation(400, 350);
+		btnAddWagon2.setLocation(x, 350);
 		contentPane.add(btnAddWagon2);
 
-		JButton btnDeleteWagon2 = new JButton("-SolidCargo");
-		btnDeleteWagon2.setSize(130, 30);
-		btnDeleteWagon2.setLocation(550, 350);
-		contentPane.add(btnDeleteWagon2);
+//		JButton btnDeleteWagon2 = new JButton("-SolidCargo");
+//		btnDeleteWagon2.setSize(130, 30);
+//		btnDeleteWagon2.setLocation(x+150, 350);
+//		//contentPane.add(btnDeleteWagon2);
 
 		JButton btnAddWagon3 = new JButton("+LiquidCargo");
 		btnAddWagon3.setSize(130, 30);
-		btnAddWagon3.setLocation(400, 450);
+		btnAddWagon3.setLocation(x, 450);
 		contentPane.add(btnAddWagon3);
 
-		JButton btnDeleteWagon3 = new JButton("-LiquidCargo");
-		btnDeleteWagon3.setSize(130, 30);
-		btnDeleteWagon3.setLocation(550, 450);
-		contentPane.add(btnDeleteWagon3);
+//		JButton btnDeleteWagon3 = new JButton("-LiquidCargo");
+//		btnDeleteWagon3.setSize(130, 30);
+//		btnDeleteWagon3.setLocation(x+150, 450);
+//		//contentPane.add(btnDeleteWagon3);
 
+		//extra textfields
+		
+		JLabel lbSeats = new JLabel("Seats: ");
+		lbSeats.setSize(300, 30);
+		lbSeats.setLocation(x, 300);
+		contentPane.add(lbSeats);
+		
+		JTextField tfSeats = new JTextField("20");
+		tfSeats.setSize(80, 30);
+		tfSeats.setLocation(x+50,300);
+		contentPane.add(tfSeats);
+		
+		JLabel lbSolid = new JLabel("Content: ");
+		lbSolid.setSize(300, 30);
+		lbSolid.setLocation(x,400);
+		contentPane.add(lbSolid);
+		
+		JTextField tfSolid = new JTextField("100");
+		tfSolid.setSize(80, 30);
+		tfSolid.setLocation(x+50,400);
+		contentPane.add(tfSolid);
+		
+		JLabel lbLiquid = new JLabel("Content: ");
+		lbLiquid.setSize(300, 30);
+		lbLiquid.setLocation(x,500);
+		contentPane.add(lbLiquid);
+	
+		JTextField tfLiquid= new JTextField("100");
+		tfLiquid.setSize(80, 30);
+		tfLiquid.setLocation(x+50,500);
+		contentPane.add(tfLiquid);
+		
 		// displaying frame
+		
 		frame.setContentPane(contentPane);
+		//frame.getContentPane().add(,);
 		frame.setSize(800, 600);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 
-		// Command button functions
+////Actionlisteners
 		btnNewTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -101,13 +151,21 @@ public class TrainGUI {
 					tc.createTrain(tfNewTrain.getText());
 					loadTrains();
 					cbAllTrains.setSelectedItem(tfNewTrain.getText());
+					loadWagons();
 					System.out.println("added train:" + getSelectedTrain().getTrainid());
 
 				}
 
 			}
 		});
-
+		
+		cbAllTrains.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        loadWagons();
+		        System.out.println("Selected other train!");
+		    }
+		});
+		
 		btnDeleteTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -118,113 +176,102 @@ public class TrainGUI {
 					for (Wagon w:getSelectedTrain().getWagonlist()){
 						tc.deleteWagon(w);
 					}
-					
 					tc.deleteTrain(getSelectedTrain());
 					loadTrains();
-
+				
 				}
 			}
 		});
-
-		btnAddWagon1.addActionListener(new ActionListener() {
+		
+		btnDeleteWagon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addwagon("Passengerswagon");
+				// Happens when button is pressed
+				if (cbAllWagons.getSelectedItem() != null) {
+					deleteWagon(cbAllWagons.getSelectedItem().toString());
+					//System.out.println(cbAllWagons.getSelectedItem());
+				}
 			}
 		});
 		
-		btnDeleteWagon1.addActionListener(new ActionListener() {
+		btnAddWagon1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				deleteWagon("Passengerswagon");
+				addwagon("Passengerswagon",tfSeats);
 			}
 		});
 
 		btnAddWagon2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addwagon("SolidCargowagon");
-			}
-		});
-		
-		btnDeleteWagon2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				deleteWagon("SolidCargowagon");
+				addwagon("SolidCargowagon",tfSolid);
 			}
 		});
 		
 		btnAddWagon3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addwagon("LiquidCargowagon");
-			}
-		});
-		
-		btnDeleteWagon3.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				deleteWagon("LiquidCargowagon");
+				addwagon("LiquidCargowagon",tfLiquid);
 			}
 		});
 	}
-
-	private void addwagon(String wagontype) {
-		//generates id and adds a wagon , if wagon is liquid/cargo content is set to 1000
-		int content =1000;
+////
+	private void addwagon(String wagontype, JTextField input) {
+		try{
+		String S=input.getText();
 		
+		int content= Integer.parseInt(S);
+
 		int maxid=tc.getMaxWagonId();
 		String id=Integer.toString((maxid+1));
+		
 		if (cbAllTrains.getSelectedItem() != null) {
-			
 			if (wagontype.equals("Passengerswagon")) {
-				tc.createPassengerWagon((id));
+				tc.createPassengerWagon(id,content);
 			} else if (wagontype.equals("SolidCargowagon")) {
 				tc.createSolidCargoWagon(id, content);
 			} else {
 				//(wagontype.equals("Liquid")) {
 				tc.createLiquidCargoWagon(id, content);
 			}
-			
 			tc.addWagon(tc.getWagon(id), getSelectedTrain());
 			System.out.println("created " + wagontype + " with id " +id+ " and added it to train"
 					+ getSelectedTrain().getTrainid());
-			// TODO reload the SELECTED train and redraw it
-			// loadTrains();
+			 loadWagons();	
+		}}
+		catch(Exception e){
+			//TODO add popup invalid number
+			System.out.println(e.getMessage());
 		}
 	}
 
-	private void deleteWagon(String wagontype) {
-		
-		//loop through all wagons and delete the last one of given type
-		if (cbAllTrains.getSelectedItem() != null) {
-			Wagon toDelete = null;
-			for (Wagon w : tc.getWagons(getSelectedTrain())) {
-				//System.out.println("checking for type="+w.getClass().getSimpleName().toString());
-				if (w.getClass().getSimpleName().toString().equals(wagontype)) {
-					toDelete = w;
-				}
-			}
-			if (toDelete != null) {
-				tc.deleteWagon(toDelete);
-				System.out.println("deleted wagon with id " + toDelete.getWagonid() + " and removed it from train"
-						+ getSelectedTrain().getTrainid());
-				// TODO reload the SELECTEDtrain and draw new wagon
-				// loadTrains();
-			} else {
-				// Train doesnt have any wagons of paramater wagontype
-			}
-		}
+	private void deleteWagon(String toDelete) {
+		//System.out.println(toDelete);
+				Wagon w= tc.getWagon(toDelete);
+				tc.deleteWagon(w);
+				loadWagons();
 	}
 
 	public void loadTrains() {
+		//empty the dropdown and fill with train+ wagons
 		cbAllTrains.removeAllItems();
 		for (Train t : tc.getTrains()) {
 			cbAllTrains.addItem(t.getTrainid());
-			// System.out.println("Train found");
+			
 		}
+		loadWagons();
 	}
 
+	public void loadWagons(){
+		cbAllWagons.removeAllItems();
+		Train selected = getSelectedTrain();
+		for (Wagon w :selected.getWagonlist()){
+			if (w.getClass() != Locomotive.class) {
+				cbAllWagons.addItem(w.getWagonid());//+"-"+w.getClass().getSimpleName());
+			}
+		}
+		//TODO Draw the train
+	}
 	public Train getSelectedTrain() {
 		return tc.getTrain(cbAllTrains.getSelectedItem().toString());
 	}
@@ -232,7 +279,8 @@ public class TrainGUI {
 	public static void main(String args[]) {
 		TrainGUI gui = new TrainGUI();
 		gui.loadTrains();
-
+		
+		//Graphics g = drawPanel.getGraphics();
 		/*
 		 * jComboBox1.addActionListener(new ActionListener() {
 		 * 
