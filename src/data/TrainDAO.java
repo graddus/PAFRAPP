@@ -110,7 +110,8 @@ public class TrainDAO extends BaseDAO {
 
 			// Een tweede statement maken dat een resultaat oplevert
 			String queryText = "INSERT INTO Trains values('" + id + "', 1)";
-			String queryText2 = "INSERT INTO Wagons values('" +(getMaxWagonId()+1)+ "', 'Locomotive', 1, NULL, NULL, '" + id + "')";
+			String queryText2 = "INSERT INTO Wagons values('" +id+ "', 'Locomotive', 1, NULL, NULL, '" + id + "')";
+			// changed wagon id to be train id again
 			// TODO wagon id shouldnt be the trains id as this can give errors
 			// Een tweede statement uitvoeren
 			stmt.executeQuery(queryText);
@@ -135,7 +136,7 @@ public class TrainDAO extends BaseDAO {
 			Statement stmt = conn.createStatement();
 
 			// Een tweede statement maken dat een resultaat oplevert
-			String queryText = "SELECT * FROM Wagons WHERE train_ID='" + train.getTrainid() + "'";
+			String queryText = "SELECT * FROM Wagons WHERE train_ID='" + train.getTrainid() + "' order by id";
 
 			// Een tweede statement uitvoeren
 			ResultSet rs = stmt.executeQuery(queryText);
