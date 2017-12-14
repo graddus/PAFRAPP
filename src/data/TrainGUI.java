@@ -4,7 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.LayoutQueue;
 
@@ -34,6 +39,8 @@ public class TrainGUI {
 		lbNewTrain.setSize(300, 30);
 		lbNewTrain.setLocation(5, 250);
 		contentPane.add(lbNewTrain);
+		
+		
 
 		JTextField tfNewTrain = new JTextField("Train name?");
 		tfNewTrain.setSize(100, 30);
@@ -223,6 +230,28 @@ public class TrainGUI {
 			cbAllTrains.addItem(t.getTrainid());
 			// System.out.println("Train found");
 		}
+	}
+	
+	public void drawTrain(Train train) throws IOException {
+		
+		//Create locomotive
+		JLabel locoLabel = new JLabel();
+		locoLabel.setSize(200, 200);
+		locoLabel.setLocation(5, 5);
+		ImageIcon locoIcon = new ImageIcon();
+	    BufferedImage locoImg = ImageIO.read(new File("loc.png"));
+	    locoIcon.setImage(locoImg);
+	    locoLabel.setIcon(locoIcon);
+	    
+		//Create the cart if they exist
+	    int numberOfCarts = tc.getLengthOfTrain(train);
+		for(int x = 0;x < numberOfCarts;x++) {
+			ImageIcon cartIcon = new ImageIcon();
+		    BufferedImage cartImg = ImageIO.read(new File("cart.png"));
+		    cartIcon.setImage(cartImg);
+		    //jlabel.setIcon(icon);
+		}
+		
 	}
 
 	public Train getSelectedTrain() {

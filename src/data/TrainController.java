@@ -16,6 +16,12 @@ public class TrainController {
 		private static TrainUI ui=new TrainUI();
 		//private static TrainGUI gui=new TrainGUI();
 		
+		public int getLengthOfTrain(Train train) {
+			ArrayList<Wagon> wagons = new ArrayList<Wagon>();
+			wagons = dao.getWagons(train);
+			return wagons.size();
+		}
+		
 		public ArrayList<Train> getTrains() {
 			return dao.getTrains();
 		}
@@ -451,6 +457,7 @@ public class TrainController {
 		ui.output.append(
 				"given command is illegal; try new, add, remove, getnumseats, getcontentcub, getcontentlit or delete\n");
 	}
+	
 }
 		
 //display UI
