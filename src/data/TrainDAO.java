@@ -395,7 +395,7 @@ public class TrainDAO extends BaseDAO {
 			Connection conn = super.getConnection();
 			Statement stmt = conn.createStatement();
 			String queryText = "select max(id)as id from wagons";
-		
+		    
 			ResultSet rs = stmt.executeQuery(queryText);
 			while (rs.next()) {
 				code = rs.getInt("id");
