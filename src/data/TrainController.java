@@ -1,22 +1,23 @@
 package data;
-
 import java.util.ArrayList;
-
 import javax.swing.SwingUtilities;
-
 import design.LiquidCargowagon;
+import design.Locomotive;
+import design.Passengerswagon;
 import design.SolidCargowagon;
 import design.Train;
 import design.Wagon;
 
 public class TrainController {
-		private static TrainDAO dao = new TrainDAO();
+		private TrainDAO dao = new TrainDAO();
 		private static TrainUI ui=new TrainUI();
 		private static CommandController cc=  new CommandController();
-
+		private static TrainGUI gui=new TrainGUI();
+		
 		public ArrayList<Train> getTrains() {
 			return dao.getTrains();
 		}
+		
 		public Train getTrain(String id){
 				return dao.getTrain(id);
 			}
@@ -35,7 +36,6 @@ public class TrainController {
 		public void deleteTrain(Train train){
 			dao.deleteTrain(train);
 		}
-
 		public void createWagon(String id, int value, String wagontype) {
 				dao.createWagon(id, value, wagontype);
 		}
@@ -147,19 +147,19 @@ public class TrainController {
 			}
 			return result;
 		}
-		
-//COMMAND INTERFACE MAIN METHOD
-		public void executeCommand(String command){
-			String result=cc.executeCommand(command);
-		ui.output.append(result);
-}
-		
-//display UI
-public static void main(String... args) {
-	SwingUtilities.invokeLater(new Runnable() {
-		public void run() {
-			ui.displayGUI();
-		}
-	});
-}
+		//COMMAND INTERFACE MAIN METHOD
+				public void executeCommand(String command){
+					String result=cc.executeCommand(command);
+				ui.output.append(result);
+		}		
+				
+			//GUI MAIN METHOD	
+			//display UI
+			public static void main(String... args) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						ui.displayGUI();
+					}
+				});
+			}
 }

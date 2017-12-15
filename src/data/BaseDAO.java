@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class BaseDAO {
     private String connectionURL = "jdbc:oracle:thin:@localhost:1521:XE";
-    private String username = "PAFR";
-    private String password = "Burdeos1";
+    private String username = "admin";
+    private String password = "root";
     private String driver = "oracle.jdbc.driver.OracleDriver";
     private Connection con;
 
