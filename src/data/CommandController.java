@@ -23,7 +23,7 @@ public class CommandController {
 					// check if train exists already
 					if (tc.TrainControl(id) == false) {
 						tc.createTrain(id);
-						commandresult = ("train " + id + " created.\n");
+						//commandresult = ("train " + id + " created.\n");
 					} else {
 						commandresult = ("This train already exists.\n");
 					}
@@ -38,7 +38,7 @@ public class CommandController {
 						} else {
 							id = execute.substring(0, execute.length());
 						}
-						System.out.println(id);
+						//System.out.println(id);
 						// check if wagon exists already
 						if (!id.contains(" ")){
 						if (tc.WagonControl(id) == false) {
