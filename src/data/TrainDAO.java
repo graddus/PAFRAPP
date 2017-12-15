@@ -389,25 +389,4 @@ public class TrainDAO extends BaseDAO {
 			e.printStackTrace();
 		}
 	}
-
-	public int getMaxWagonId() {
-		int code = 0;
-		try {
-			Connection conn = super.getConnection();
-			Statement stmt = conn.createStatement();
-			String queryText = "select max(id)as id from wagons";
-		    
-			ResultSet rs = stmt.executeQuery(queryText);
-			while (rs.next()) {
-				code = rs.getInt("id");
-			}
-			
-			rs.close();
-			stmt.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return code;
-	}
 }
