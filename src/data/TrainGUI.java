@@ -144,9 +144,7 @@ public class TrainGUI {
 				// check Train doesnt exist already
 				if (tfNewTrain.getText().length() != 0 && tc.getTrain(tfNewTrain.getText()) == null) {
 					tc.createTrain(tfNewTrain.getText());
-					loadTrains();
-					cbAllTrains.setSelectedItem(tfNewTrain.getText());
-					loadWagons();
+					// loadTrains(tfNewTrain.getText());
 					System.out.println("added new train:" + getSelectedTrain().getTrainid());
 				}
 
@@ -172,7 +170,7 @@ public class TrainGUI {
 						tc.deleteWagon(w);
 					}
 					tc.deleteTrain(getSelectedTrain());
-					loadTrains();
+					// loadTrains("");
 
 				}
 			}
@@ -208,7 +206,7 @@ public class TrainGUI {
 			}
 		});
 		// AFter setup load Trains and fill comboboxes
-		loadTrains();
+		loadTrains("");
 	}
 
 	//// Basic Functions
@@ -232,7 +230,7 @@ public class TrainGUI {
 				tc.addWagon(tc.getWagon(id), getSelectedTrain());
 				System.out.println("created " + wagontype + " with id " + id + " and added it to train"
 						+ getSelectedTrain().getTrainid());
-				loadWagons();
+				// loadWagons();
 			}
 		} catch (Exception e) {
 			// TODO add popup invalid number
@@ -243,34 +241,35 @@ public class TrainGUI {
 	private void deleteWagon(String id) {
 		Wagon w = tc.getWagon(id);
 		tc.deleteWagon(w);
-		loadWagons();
+		// loadWagons();
+		System.out.println("deleted wagon" + id );
 	}
 
-	public void loadTrains() {
+	public void loadTrains(String toSelect) {
 		cbAllTrains.removeAllItems();
 		for (Train t : tc.getTrains()) {
 			cbAllTrains.addItem(t.getTrainid());
 		}
-		if (getSelectedTrain() != null) {
+			cbAllTrains.setSelectedItem(toSelect);
 			loadWagons();
-		}
 	}
 
 	public void loadWagons() {
 		cbAllWagons.removeAllItems();
-		Train selected = getSelectedTrain();
-		for (Wagon w : selected.getWagonlist()) {
-			if (w.getClass() != Locomotive.class) {
-				cbAllWagons.addItem(w.getWagonid());
+		if (getSelectedTrain() != null) {
+			Train selected = getSelectedTrain();
+			for (Wagon w : selected.getWagonlist()) {
+				if (w.getClass() != Locomotive.class) {
+					cbAllWagons.addItem(w.getWagonid());
+				}
+			}
+			try {
+				drawTrain(getSelectedTrain());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		try {
-			drawTrain(getSelectedTrain());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	public Train getSelectedTrain() {
@@ -281,10 +280,9 @@ public class TrainGUI {
 	}
 
 	public void drawTrain(Train train) throws IOException {
-
 		System.out.println("Drawing train");
-		// Draw Locomotive
 		paintPane.removeAll();
+		// Draw Locomotive
 		JLabel locoLabel = new JLabel();
 		locoLabel.setSize(200, 200);
 		locoLabel.setLocation(5, 5);
