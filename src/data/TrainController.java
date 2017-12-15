@@ -16,12 +16,6 @@ public class TrainController {
 		private static TrainUI ui=new TrainUI();
 		//private static TrainGUI gui=new TrainGUI();
 		
-		public int getLengthOfTrain(Train train) {
-			ArrayList<Wagon> wagons = new ArrayList<Wagon>();
-			wagons = dao.getWagons(train);
-			return wagons.size();
-		}
-		
 		public ArrayList<Train> getTrains() {
 			return dao.getTrains();
 		}
@@ -32,11 +26,12 @@ public class TrainController {
 		public void createTrain(String id) {
 			dao.createTrain(id);
 		}
-
+		
 		public ArrayList<Wagon> getWagons(Train train) {
 			return dao.getWagons(train);
 		}
 		public Wagon getWagon(String id) {
+			
 			return dao.getWagon(id);
 		}
 
@@ -164,10 +159,6 @@ public class TrainController {
 			return result;
 		}
 		
-		public int getMaxWagonId() {
-			int result= dao.getMaxWagonId();		
-			return result;
-		}
 //COMMAND INTERFACE MAIN METHOD
 		public void commandExecute(String command){
 			System.out.println(command.substring(0,3));
@@ -457,7 +448,6 @@ public class TrainController {
 		ui.output.append(
 				"given command is illegal; try new, add, remove, getnumseats, getcontentcub, getcontentlit or delete\n");
 	}
-	
 }
 		
 //display UI
@@ -468,4 +458,5 @@ public static void main(String... args) {
 		}
 	});
 }
+
 }
