@@ -36,56 +36,48 @@ public class TrainController {
 	public void deleteTrain(Train train) {
 		dao.deleteTrain(train);
 		gui.loadTrains("");
-		// ui.printietsindeconsole("plak hier het commando");
-	}
-
-	// TODO remove as Never used?
-	public void createWagon(String id, int value, String wagontype) {
-		dao.createWagon(id, value, wagontype);
-		// This function never gets used
+		ui.output.append("train " + train.getTrainid() + " deleted.\n");
 	}
 
 	public void addWagon(Wagon wagon, Train train) {
 		dao.addWagon(wagon, train);
 		gui.loadTrains(train.getTrainid());
-		// ui.printietsindeconsole("plak hier het commando");
+		ui.output.append(wagon.getClass().getSimpleName() + " " + wagon.getWagonid() + " has been added to train "
+				+ train.getTrainid() + ".\n");
 	}
 
 	public void removeWagon(Wagon wagon, Train train) {
 		dao.removeWagon(wagon, train);
-		// ui.printietsindeconsole("plak hier het commando");
+		gui.loadWagons();
+		ui.output.append(wagon.getClass().getSimpleName() + " " + wagon.getWagonid() + " has been removed from train "
+				+ train.getTrainid() + ".\n");
+
 	}
 
 	public void deleteWagon(Wagon wagon) {
 		dao.deleteWagon(wagon);
-		gui.loadWagons();// //geen Trein tonen in gui,wagon niet verplicht bij
-							// trein
-		// ui.printietsindeconsole("plak hier het commando");
-	}
-
-	public void createPassengerWagon(String id) {
-		dao.createWagon(id, 20, "Passenger");
-		// ui.printietsindeconsole("plak hier het commando");
+		gui.loadTrains("");// Deleted wagon kan nog aan trein vastzitten
+		ui.output.append("wagon " + wagon.getWagonid() + " deleted.\n");
 	}
 
 	public void createPassengerWagon(String id, int numseats) {
 		dao.createWagon(id, numseats, "Passenger");
-		// ui.printietsindeconsole("plak hier het commando");
+		ui.output.append("passengerwagon " + id + " created with " + numseats + " seats.\n");
 	}
 
 	public void createSolidCargoWagon(String id, int content) {
 		dao.createWagon(id, content, "SolidCargo");
-		// ui.printietsindeconsole("plak hier het commando");
+		ui.output.append("solidcargowagon " + id + " created with " + content + " cubic meters content.\n");
 	}
 
 	public void createLiquidCargoWagon(String id, int content) {
 		dao.createWagon(id, content, "LiquidCargo");
-		// ui.printietsindeconsole("plak hier het commando");
+		ui.output.append("liquidcargowagon " + id + " created with " + content + " liters content.\n");
 	}
 
 	public void updateTrain(Train train) {
 		dao.updateTrain(train);
-		// ui.printietsindeconsole("plak hier het commando");
+		// ui.printietsindeconsole("Overbodig?");
 	}
 
 	public int getContentcubTrain(String execution) {
@@ -119,6 +111,7 @@ public class TrainController {
 
 	}
 
+	// mogelijk inconsistentie  seats?
 	// get sum of the seats all attached passengerwagons
 	public int getNumseatsTrain(String execution) {
 		try {
