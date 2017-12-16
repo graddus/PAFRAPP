@@ -48,11 +48,11 @@ public class CommandController {
 									execute = execute.replace("numseats ", "");
 									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
 									tc.createPassengerWagon(id, Integer.parseInt(value));
-									commandresult = ("passengerwagon " + id + " created with " + value + " seats.\n");
+									//commandresult = ("passengerwagon " + id + " created with " + value + " seats.\n");
 								}
 								else {
 								tc.createPassengerWagon(id, 20);
-								commandresult = ("passengerwagon " + id + " created with 20 seats.\n");
+								//commandresult = ("passengerwagon " + id + " created with 20 seats.\n");
 								}
 							}else {
 								commandresult = ("extension format isn't correct; use numseats 01.\n");
@@ -82,11 +82,11 @@ public class CommandController {
 									execute = execute.replace("contentlit ", "");
 									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
 									tc.createLiquidCargoWagon(id, Integer.parseInt(value));
-									commandresult = ("liquidcargowagon " + id + " created with " + value + " liters content.\n");
+									//commandresult = ("liquidcargowagon " + id + " created with " + value + " liters content.\n");
 								}
 								else {
 								tc.createLiquidCargoWagon(id, 100);
-								commandresult = ("liquidcargowagon " + id + " created with 100 liters content.\n");
+								//commandresult = ("liquidcargowagon " + id + " created with 100 liters content.\n");
 								}
 							}else {
 								commandresult = ("extension format isn't correct; use contentlit 01.\n");
@@ -116,11 +116,11 @@ public class CommandController {
 									execute = execute.replace("contentcub ", "");
 									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
 									tc.createSolidCargoWagon(id, Integer.parseInt(value));
-									commandresult = ("solidcargowagon " + id + " created with " + value + " cubic meters content.\n");
+									//commandresult = ("solidcargowagon " + id + " created with " + value + " cubic meters content.\n");
 								}
 								else {
 								tc.createSolidCargoWagon(id, 20);
-								commandresult = ("solidcargowagon " + id + " created with 100 cubic meters content.\n");
+								//commandresult = ("solidcargowagon " + id + " created with 100 cubic meters content.\n");
 								}
 							}else {
 								commandresult = ("extension format isn't correct; use contentcub 01.\n");
@@ -276,16 +276,13 @@ public class CommandController {
 						// add seats of wagon to totalseats of train
 						tr.setTotalseats(tr.getTotalseats() + paswag.getSeats());
 						tc.updateTrain(tr);
-						commandresult = ("passengerwagon " + wag.getWagonid() + " has been added to train "
-								+ tr.getTrainid() + ".\n");
+						//commandresult = ("passengerwagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(SolidCargowagon.class)) {
-						commandresult = ("solidcargowagon " + wag.getWagonid() + " has been added to train "
-								+ tr.getTrainid() + ".\n");
+						//commandresult = ("solidcargowagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(LiquidCargowagon.class)) {
-						commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been added to train "
-								+ tr.getTrainid() + ".\n");
+						//commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
 					}
 
 				}
@@ -325,16 +322,13 @@ public class CommandController {
 						// remove seats of wagon from totalseats of train
 						tr.setTotalseats(tr.getTotalseats() - paswag.getSeats());
 						tc.updateTrain(tr);
-						commandresult = ("passengerwagon " + wag.getWagonid() + " has been removed from train "
-								+ tr.getTrainid() + ".\n");
+						//commandresult = ("passengerwagon " + wag.getWagonid() + " has been removed from train " + tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(SolidCargowagon.class)) {
-						commandresult = ("solidcargowagon " + wag.getWagonid() + " has been removed from train "
-								+ tr.getTrainid() + ".\n");
+						//commandresult = ("solidcargowagon " + wag.getWagonid() + " has been removed from train "+ tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(LiquidCargowagon.class)) {
-						commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been removed from train "
-								+ tr.getTrainid() + ".\n");
+					//	commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been removed from train "+ tr.getTrainid() + ".\n");
 					}
 				}
 			}
@@ -346,7 +340,7 @@ public class CommandController {
 					if (command.substring(7, 12).equals("train")) {
 						if (tc.getTrain(target) != null) {
 							tc.deleteTrain(tc.getTrain(target));
-							commandresult = ("train " + target + " deleted.\n");
+							//commandresult = ("train " + target + " deleted.\n");
 						} else {
 							commandresult = ("train " + target + " does not exist.\n");
 						}
@@ -359,7 +353,7 @@ public class CommandController {
 								commandresult = ("The given wagon is a locomotive; locomotives can't removed.\n");
 							} else {
 								tc.deleteWagon(tc.getWagon(target));
-								commandresult = ("wagon " + target + " deleted.\n");
+								//commandresult = ("wagon " + target + " deleted.\n");
 							}
 						} else {
 							commandresult = ("wagon " + target + " does not exist.\n");
