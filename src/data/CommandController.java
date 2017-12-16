@@ -1,11 +1,6 @@
 package data;
 
-import design.LiquidCargowagon;
-import design.Locomotive;
-import design.Passengerswagon;
-import design.SolidCargowagon;
-import design.Train;
-import design.Wagon;
+import design.*;
 
 public class CommandController {
 	private TrainController tc = new TrainController();
@@ -23,7 +18,7 @@ public class CommandController {
 					// check if train exists already
 					if (tc.TrainControl(id) == false) {
 						tc.createTrain(id);
-						//commandresult = ("train " + id + " created.\n");
+						// commandresult = ("train " + id + " created.\n");
 					} else {
 						commandresult = ("This train already exists.\n");
 					}
@@ -38,30 +33,32 @@ public class CommandController {
 						} else {
 							id = execute.substring(0, execute.length());
 						}
-						//System.out.println(id);
+						// System.out.println(id);
 						// check if wagon exists already
-						if (!id.contains(" ")){
-						if (tc.WagonControl(id) == false) {
-							// check for optional numseats input
-							if (command.length() > 22) {
-								if (execute.contains("numseats")) {
-									execute = execute.replace("numseats ", "");
-									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
-									tc.createPassengerWagon(id, Integer.parseInt(value));
-									//commandresult = ("passengerwagon " + id + " created with " + value + " seats.\n");
+						if (!id.contains(" ")) {
+							if (tc.WagonControl(id) == false) {
+								// check for optional numseats input
+								if (command.length() > 22) {
+									if (execute.contains("numseats")) {
+										execute = execute.replace("numseats ", "");
+										value = execute.substring(execute.indexOf(" ") + 1, execute.length());
+										tc.createPassengerWagon(id, Integer.parseInt(value));
+										// commandresult = ("passengerwagon " +
+										// id + " created with " + value + "
+										// seats.\n");
+									} else {
+										tc.createPassengerWagon(id, 20);
+										// commandresult = ("passengerwagon " +
+										// id + " created with 20 seats.\n");
+									}
+								} else {
+									commandresult = ("extension format isn't correct; use numseats 01.\n");
 								}
-								else {
-								tc.createPassengerWagon(id, 20);
-								//commandresult = ("passengerwagon " + id + " created with 20 seats.\n");
-								}
-							}else {
-								commandresult = ("extension format isn't correct; use numseats 01.\n");
+							} else {
+								commandresult = ("this wagon already exists.\n");
 							}
 						} else {
-							commandresult = ("this wagon already exists.\n");
-						}}
-						else{
-							commandresult=("either the given id contains spaces or the wrong extension was used.\n");
+							commandresult = ("either the given id contains spaces or the wrong extension was used.\n");
 						}
 					}
 					// create a liquidcargowagon
@@ -74,28 +71,31 @@ public class CommandController {
 						}
 						System.out.println(id);
 						// check if wagon exists already
-						if (!id.contains(" ")){
-						if (tc.WagonControl(id) == false) {
-							// check for optional numseats input
-							if (command.length() > 22) {
-								if (execute.contains("contentlit")) {
-									execute = execute.replace("contentlit ", "");
-									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
-									tc.createLiquidCargoWagon(id, Integer.parseInt(value));
-									//commandresult = ("liquidcargowagon " + id + " created with " + value + " liters content.\n");
+						if (!id.contains(" ")) {
+							if (tc.WagonControl(id) == false) {
+								// check for optional numseats input
+								if (command.length() > 22) {
+									if (execute.contains("contentlit")) {
+										execute = execute.replace("contentlit ", "");
+										value = execute.substring(execute.indexOf(" ") + 1, execute.length());
+										tc.createLiquidCargoWagon(id, Integer.parseInt(value));
+										// commandresult = ("liquidcargowagon "
+										// + id + " created with " + value + "
+										// liters content.\n");
+									} else {
+										tc.createLiquidCargoWagon(id, 100);
+										// commandresult = ("liquidcargowagon "
+										// + id + " created with 100 liters
+										// content.\n");
+									}
+								} else {
+									commandresult = ("extension format isn't correct; use contentlit 01.\n");
 								}
-								else {
-								tc.createLiquidCargoWagon(id, 100);
-								//commandresult = ("liquidcargowagon " + id + " created with 100 liters content.\n");
-								}
-							}else {
-								commandresult = ("extension format isn't correct; use contentlit 01.\n");
+							} else {
+								commandresult = ("this wagon already exists.\n");
 							}
 						} else {
-							commandresult = ("this wagon already exists.\n");
-						}}
-						else{
-							commandresult=("either the given id contains spaces or the wrong extension was used.\n");
+							commandresult = ("either the given id contains spaces or the wrong extension was used.\n");
 						}
 					}
 					// create solidcargowagon
@@ -108,28 +108,31 @@ public class CommandController {
 						}
 						System.out.println(id);
 						// check if wagon exists already
-						if (!id.contains(" ")){
-						if (tc.WagonControl(id) == false) {
-							// check for optional numseats input
-							if (command.length() > 22) {
-								if (execute.contains("contentcub")) {
-									execute = execute.replace("contentcub ", "");
-									value = execute.substring(execute.indexOf(" ") + 1, execute.length());
-									tc.createSolidCargoWagon(id, Integer.parseInt(value));
-									//commandresult = ("solidcargowagon " + id + " created with " + value + " cubic meters content.\n");
+						if (!id.contains(" ")) {
+							if (tc.WagonControl(id) == false) {
+								// check for optional numseats input
+								if (command.length() > 22) {
+									if (execute.contains("contentcub")) {
+										execute = execute.replace("contentcub ", "");
+										value = execute.substring(execute.indexOf(" ") + 1, execute.length());
+										tc.createSolidCargoWagon(id, Integer.parseInt(value));
+										// commandresult = ("solidcargowagon " +
+										// id + " created with " + value + "
+										// cubic meters content.\n");
+									} else {
+										tc.createSolidCargoWagon(id, 20);
+										// commandresult = ("solidcargowagon " +
+										// id + " created with 100 cubic meters
+										// content.\n");
+									}
+								} else {
+									commandresult = ("extension format isn't correct; use contentcub 01.\n");
 								}
-								else {
-								tc.createSolidCargoWagon(id, 20);
-								//commandresult = ("solidcargowagon " + id + " created with 100 cubic meters content.\n");
-								}
-							}else {
-								commandresult = ("extension format isn't correct; use contentcub 01.\n");
+							} else {
+								commandresult = ("this wagon already exists.\n");
 							}
 						} else {
-							commandresult = ("this wagon already exists.\n");
-						}}
-						else{
-							commandresult=("either the given id contains spaces or the wrong extension was used.\n");
+							commandresult = ("either the given id contains spaces or the wrong extension was used.\n");
 						}
 					}
 				} else {
@@ -256,14 +259,12 @@ public class CommandController {
 				// individual errors
 				if (wag == null) {
 					commandresult = ("The given wagon doesn't exist or isn't a wagon.\n");
-				}
-				else if (tc.getWagon(wagon_id).getClass().equals(Locomotive.class)) {
+				} else if (tc.getWagon(wagon_id).getClass().equals(Locomotive.class)) {
 					commandresult = ("The given wagon is a locomotive; locomotives can't be moved to other trains.\n");
 				}
 				if (tr == null) {
 					commandresult = ("The given train doesn't exist or isn't a train.\n");
-				}
-				else if (tc.addWagonControl(wag, tr) == true) {
+				} else if (tc.addWagonControl(wag, tr) == true) {
 					commandresult = ("wagon " + wag.getWagonid() + " is already attached to train " + tr.getTrainid()
 							+ ".\n");
 				}
@@ -276,13 +277,19 @@ public class CommandController {
 						// add seats of wagon to totalseats of train
 						tr.setTotalseats(tr.getTotalseats() + paswag.getSeats());
 						tc.updateTrain(tr);
-						//commandresult = ("passengerwagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
+						// commandresult = ("passengerwagon " + wag.getWagonid()
+						// + " has been added to train " + tr.getTrainid() +
+						// ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(SolidCargowagon.class)) {
-						//commandresult = ("solidcargowagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
+						// commandresult = ("solidcargowagon " +
+						// wag.getWagonid() + " has been added to train " +
+						// tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(LiquidCargowagon.class)) {
-						//commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been added to train " + tr.getTrainid() + ".\n");
+						// commandresult = ("liquidcargowagon " +
+						// wag.getWagonid() + " has been added to train " +
+						// tr.getTrainid() + ".\n");
 					}
 
 				}
@@ -296,20 +303,18 @@ public class CommandController {
 				execute = execute.replace("from ", "");
 				wagon_id = execute.substring(0, execute.indexOf(" "));
 				train_id = execute.substring(execute.indexOf(" ") + 1, execute.length());
-				
+
 				Wagon wag = tc.getWagon(wagon_id);
 				Train tr = tc.getTrain(train_id);
 				// individual errors
 				if (wag == null) {
 					commandresult = ("The given wagon doesn't exist or isn't a wagon.\n");
-				}
-				else if (tc.getWagon(wagon_id).getClass().equals(Locomotive.class)) {
+				} else if (tc.getWagon(wagon_id).getClass().equals(Locomotive.class)) {
 					commandresult = ("The given wagon is a locomotive; locomotives can't be moved to other trains.\n");
 				}
 				if (tr == null) {
 					commandresult = ("The given train doesn't exist or isn't a train.\n");
-				}
-				else if (tc.addWagonControl(wag, tr) == false) {
+				} else if (tc.addWagonControl(wag, tr) == false) {
 					commandresult = ("wagon " + wag.getWagonid() + " is not attached to train " + tr.getTrainid()
 							+ ".\n");
 				}
@@ -322,13 +327,19 @@ public class CommandController {
 						// remove seats of wagon from totalseats of train
 						tr.setTotalseats(tr.getTotalseats() - paswag.getSeats());
 						tc.updateTrain(tr);
-						//commandresult = ("passengerwagon " + wag.getWagonid() + " has been removed from train " + tr.getTrainid() + ".\n");
+						// commandresult = ("passengerwagon " + wag.getWagonid()
+						// + " has been removed from train " + tr.getTrainid() +
+						// ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(SolidCargowagon.class)) {
-						//commandresult = ("solidcargowagon " + wag.getWagonid() + " has been removed from train "+ tr.getTrainid() + ".\n");
+						// commandresult = ("solidcargowagon " +
+						// wag.getWagonid() + " has been removed from train "+
+						// tr.getTrainid() + ".\n");
 					}
 					if (tc.getWagon(wagon_id).getClass().equals(LiquidCargowagon.class)) {
-					//	commandresult = ("liquidcargowagon " + wag.getWagonid() + " has been removed from train "+ tr.getTrainid() + ".\n");
+						// commandresult = ("liquidcargowagon " +
+						// wag.getWagonid() + " has been removed from train "+
+						// tr.getTrainid() + ".\n");
 					}
 				}
 			}
@@ -340,7 +351,8 @@ public class CommandController {
 					if (command.substring(7, 12).equals("train")) {
 						if (tc.getTrain(target) != null) {
 							tc.deleteTrain(tc.getTrain(target));
-							//commandresult = ("train " + target + " deleted.\n");
+							// commandresult = ("train " + target + "
+							// deleted.\n");
 						} else {
 							commandresult = ("train " + target + " does not exist.\n");
 						}
@@ -353,7 +365,8 @@ public class CommandController {
 								commandresult = ("The given wagon is a locomotive; locomotives can't removed.\n");
 							} else {
 								tc.deleteWagon(tc.getWagon(target));
-								//commandresult = ("wagon " + target + " deleted.\n");
+								// commandresult = ("wagon " + target + "
+								// deleted.\n");
 							}
 						} else {
 							commandresult = ("wagon " + target + " does not exist.\n");
