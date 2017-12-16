@@ -148,7 +148,7 @@ public class TrainController {
 		id = id.replace("new liquidcargowagon ", "");
 		id = id.replace("new solidcargowagon ", "");
 		boolean result = false;
-		if (Character.isLetter(id.charAt(0)) && Character.isLetter(id.charAt(1)) && Character.isDigit(id.charAt(2))) {
+		if (Character.isLetter(id.charAt(0))) {
 			result = true;
 		}
 		return result;
