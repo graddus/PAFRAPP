@@ -199,6 +199,8 @@ public class TrainGUI {
 			JOptionPane.showMessageDialog(frame, "Input a name for new train");
 		} else if (tc.getTrain(id) != null) {
 			JOptionPane.showMessageDialog(frame, "Train already exists");
+		} else if (!Character.isLowerCase(id.charAt(0))) {
+			JOptionPane.showMessageDialog(frame, "Train name must begin with a-z");
 		} else {
 			tc.createTrain(id);
 			System.out.println("added new train:" + getSelectedTrain().getTrainid());
