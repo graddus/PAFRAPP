@@ -2,8 +2,15 @@ package data;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.swing.SwingUtilities;
-import design.*;
+
+import design.LiquidCargowagon;
+import design.SolidCargowagon;
+import design.Train;
+import design.Wagon;
+import userinterface.TrainGUI;
+import userinterface.TrainUI;
 
 public class TrainController {
 	private TrainDAO dao = new TrainDAO();
