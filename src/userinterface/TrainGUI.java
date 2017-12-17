@@ -215,6 +215,7 @@ public class TrainGUI {
 				tc.deleteWagon(w);
 			}
 			tc.deleteTrain(getSelectedTrain());
+			loadTrains("");
 		} else {
 			JOptionPane.showMessageDialog(frame, "No train to delete!");
 		}

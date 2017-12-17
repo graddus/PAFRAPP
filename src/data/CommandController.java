@@ -120,7 +120,7 @@ public class CommandController {
 										// id + " created with " + value + "
 										// cubic meters content.\n");
 									} else {
-										tc.createSolidCargoWagon(id, 20);
+										tc.createSolidCargoWagon(id, 100);
 										// commandresult = ("solidcargowagon " +
 										// id + " created with 100 cubic meters
 										// content.\n");
