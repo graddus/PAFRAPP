@@ -16,14 +16,14 @@ public class TrainGUI {
 
 	public static JComboBox cbAllTrains;
 	public static JComboBox cbAllWagons;
-	// public static JFrame frame;
+	public static JFrame frame;
 	public static JPanel contentPane;
 	public static JPanel paintPane;
 	public final static TrainController tc = new TrainController();
 
 	public void displayGUI() {
 		// Setup of GUI
-		JFrame frame = new JFrame();
+		// JFrame frame = new JFrame();
 		frame = new JFrame("RichRail1");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -141,13 +141,7 @@ public class TrainGUI {
 		btnNewTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// check Train doesnt exist already
-				if (tfNewTrain.getText().length() != 0 && tc.getTrain(tfNewTrain.getText()) == null) {
-					tc.createTrain(tfNewTrain.getText());
-					// loadTrains(tfNewTrain.getText());
-					System.out.println("added new train:" + getSelectedTrain().getTrainid());
-				}
-
+				addTrain(tfNewTrain.getText());
 			}
 		});
 
@@ -163,25 +157,14 @@ public class TrainGUI {
 		btnDeleteTrain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (cbAllTrains.getSelectedItem() != null) {
-					System.out.println("deleting train:" + getSelectedTrain().getTrainid());
-					// deleting all wagons associated with the train
-					for (Wagon w : getSelectedTrain().getWagonlist()) {
-						tc.deleteWagon(w);
-					}
-					tc.deleteTrain(getSelectedTrain());
-					// loadTrains("");
-
-				}
+				deleteTrain();
 			}
 		});
 
 		btnDeleteWagon.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (cbAllWagons.getSelectedItem() != null) {
-					deleteWagon(cbAllWagons.getSelectedItem().toString());
-				}
+				deleteWagon();
 			}
 		});
 
@@ -210,6 +193,30 @@ public class TrainGUI {
 	}
 
 	//// Basic Functions
+	private void addTrain(String id) {
+		// check Train field isnt empty or exist
+		if (id.length() == 0) {
+			JOptionPane.showMessageDialog(frame, "Input a name for new train");
+		} else if (tc.getTrain(id) != null) {
+			JOptionPane.showMessageDialog(frame, "Train already exists");
+		} else {
+			tc.createTrain(id);
+			System.out.println("added new train:" + getSelectedTrain().getTrainid());
+		}
+	}
+
+	private void deleteTrain() {
+		if (cbAllTrains.getSelectedItem() != null) {
+			// deleting all wagons associated with the train
+			for (Wagon w : getSelectedTrain().getWagonlist()) {
+				tc.deleteWagon(w);
+			}
+			tc.deleteTrain(getSelectedTrain());
+		} else {
+			JOptionPane.showMessageDialog(frame, "No train to delete!");
+		}
+	}
+
 	private void addwagon(String wagontype, JTextField input) {
 		try {
 			int content = Integer.parseInt(input.getText());
@@ -217,32 +224,35 @@ public class TrainGUI {
 			while (tc.getWagon(id) != null) {
 				id = tc.getRandomid();
 			}
-			;
 			if (cbAllTrains.getSelectedItem() != null) {
 				if (wagontype.equals("Passengerswagon")) {
 					tc.createPassengerWagon(id, content);
 				} else if (wagontype.equals("SolidCargowagon")) {
 					tc.createSolidCargoWagon(id, content);
 				} else {
-					// (wagontype.equals("Liquid")) {
 					tc.createLiquidCargoWagon(id, content);
 				}
 				tc.addWagon(tc.getWagon(id), getSelectedTrain());
 				System.out.println("created " + wagontype + " with id " + id + " and added it to train"
 						+ getSelectedTrain().getTrainid());
-				// loadWagons();
+			} else {
+				JOptionPane.showMessageDialog(frame, "No train to add wagon to!");
 			}
 		} catch (Exception e) {
-			// TODO add popup invalid number
-			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(frame, "Invalid number was given!");
 		}
 	}
 
-	private void deleteWagon(String id) {
-		Wagon w = tc.getWagon(id);
-		tc.deleteWagon(w);
-		// loadWagons();
-		System.out.println("deleted wagon" + id );
+	private void deleteWagon() {
+		if (cbAllWagons.getSelectedItem() != null) {
+			String id = (cbAllWagons.getSelectedItem().toString());
+			Wagon w = tc.getWagon(id);
+			tc.deleteWagon(w);
+			System.out.println("deleted wagon" + id);
+		} else {
+			JOptionPane.showMessageDialog(frame, "No wagon to delete!");
+		}
+
 	}
 
 	public void loadTrains(String toSelect) {
@@ -250,8 +260,8 @@ public class TrainGUI {
 		for (Train t : tc.getTrains()) {
 			cbAllTrains.addItem(t.getTrainid());
 		}
-			cbAllTrains.setSelectedItem(toSelect);
-			loadWagons();
+		cbAllTrains.setSelectedItem(toSelect);
+		loadWagons();
 	}
 
 	public void loadWagons() {
